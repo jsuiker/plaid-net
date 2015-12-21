@@ -11,9 +11,9 @@ namespace Plaid.Tests
         {
         }
 
-        protected override System.Net.Http.HttpClient GetHttpClient()
+        protected override HttpClient GetHttpClient()
         {
-            return new HttpClient();
+            return new HttpClient(new FakeHttpMessageHandler());
         }
     }
 }

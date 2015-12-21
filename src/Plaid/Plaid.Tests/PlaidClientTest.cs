@@ -13,7 +13,7 @@ namespace Plaid.Tests
         {
             var client = new PlaidClient("test_id", "test_secret", PlaidClient.ENVIRONMENT_DEVELOPMENT);
 
-            await client.AddUser("info", "td", new Credentials() { Username = "plaid_test", Password = "plaid_good" }, null);
+            var response = await client.AddUser("info", "citi", new Credentials() { Username = "plaid_selections", Password = "plaid_good" }, null);
         }
     }
 }

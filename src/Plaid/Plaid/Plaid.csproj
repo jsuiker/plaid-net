@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
@@ -41,15 +45,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\Account.cs" />
+    <Compile Include="Contracts\AccountMetadata.cs" />
+    <Compile Include="Contracts\AccountSubType.cs" />
+    <Compile Include="Contracts\AccountType.cs" />
     <Compile Include="Contracts\Authorization.cs" />
+    <Compile Include="Contracts\Balance.cs" />
     <Compile Include="Contracts\Credentials.cs" />
+    <Compile Include="Contracts\Error.cs" />
+    <Compile Include="Contracts\IResponse.cs" />
     <Compile Include="Contracts\Mfa.cs" />
+    <Compile Include="Contracts\Response.cs" />
+    <Compile Include="Contracts\MfaType.cs" />
     <Compile Include="Contracts\Options.cs" />
     <Compile Include="Contracts\Question.cs" />
+    <Compile Include="Contracts\ResponseCode.cs" />
+    <Compile Include="Contracts\ResponseType.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="IPlaidClient.cs" />
     <Compile Include="PlaidClient.cs" />
+    <Compile Include="PlaidException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

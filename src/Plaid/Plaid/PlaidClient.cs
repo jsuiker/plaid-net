@@ -1,4 +1,5 @@
-﻿using Plaid.Contracts;
+﻿using Newtonsoft.Json;
+using Plaid.Contracts;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,34 +50,73 @@ namespace Plaid
             return new HttpClient();
         }
 
-        public async Task AddUser(string product, string type, Credentials credentials, Options options)
+        public async Task<UserResponse> AddUser(string product, string type, Credentials credentials, Options options)
         {
             await Task.Yield();
 
             var response = await _httpClient.PostAsync(new Uri($"{_environment}/{product}"), GetContent(true, type, credentials, options));
 
-            switch (response.StatusCode)
-            {
-                case System.Net.HttpStatusCode.OK:
-                    break;
-                case System.Net.HttpStatusCode.Created:
-                    break;
-                default:
-                    break;
-            }
+            return await GetResult<UserResponse>(response);
         }
 
+
+
         #region Private
-        private HttpContent GetContent(bool requiresAuthorization, params object[] parameters)
+        private HttpContent GetContent(bool requiresAuthorization, string type, params object[] parameters)
         {
             var content = new List<object>(parameters);
+
             if (requiresAuthorization)
                 content.Add(new Authorization() { ClientId = _clientId, Secret = _secret });
 
-            return new FormUrlEncodedContent(Helper.ExtractContent(content.ToArray()));
+            var result = Helper.ExtractContent(content.ToArray());
+            result.Add("type", type);
+
+            return new FormUrlEncodedContent(result);
+        }
+
+        private async Task<T> GetResult<T>(HttpResponseMessage response)
+            where T : Response, new()
+        {
+            ResponseCode responseCode;
+
+            T resp;
+
+            switch (response.StatusCode)
+            {
+                case System.Net.HttpStatusCode.OK:
+                    responseCode = ResponseCode.Success;
+                    resp = await Response<T>(response.Content);
+                    break;
+                case System.Net.HttpStatusCode.Created:
+                    responseCode = ResponseCode.MFARequired;
+                    resp = await Response<T>(response.Content);
+                    break;
+                default:
+                    responseCode = (ResponseCode)response.StatusCode;
+                    resp = new T();
+                    resp.Error = await Response<Error>(response.Content);
+                    break;
+            }
+
+            resp.ResponseCode = responseCode;
+
+            return resp;
+        }
+
+        private async Task<T> Response<T>(HttpContent content)
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<T>(await content.ReadAsStringAsync());
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
         #endregion
 
-        
+
     }
 }

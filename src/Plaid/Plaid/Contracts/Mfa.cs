@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Plaid.Contracts
 {
-    [DataContract(Name = "mfa")]
     public class Mfa : List<Question>
     {
+        [DataMember(Name = "message")]
+        public string Message { get; set; }
     }
 }
