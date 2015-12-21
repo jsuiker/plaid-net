@@ -1,8 +1,11 @@
 ﻿using Plaid.Contracts;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,9 +49,34 @@ namespace Plaid
             return new HttpClient();
         }
 
-        public async Task AddUser(string product, Credentials credentials, Options options)
+        public async Task AddUser(string product, string type, Credentials credentials, Options options)
         {
             await Task.Yield();
+
+            var response = await _httpClient.PostAsync(new Uri($"{_environment}/{product}"), GetContent(true, type, credentials, options));
+
+            switch (response.StatusCode)
+            {
+                case System.Net.HttpStatusCode.OK:
+                    break;
+                case System.Net.HttpStatusCode.Created:
+                    break;
+                default:
+                    break;
+            }
         }
+
+        #region Private
+        private HttpContent GetContent(bool requiresAuthorization, params object[] parameters)
+        {
+            var content = new List<object>(parameters);
+            if (requiresAuthorization)
+                content.Add(new Authorization() { ClientId = _clientId, Secret = _secret });
+
+            return new FormUrlEncodedContent(Helper.ExtractContent(content.ToArray()));
+        }
+        #endregion
+
+        
     }
 }

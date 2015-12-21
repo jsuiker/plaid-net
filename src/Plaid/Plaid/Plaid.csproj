@@ -41,8 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\Authorization.cs" />
     <Compile Include="Contracts\Credentials.cs" />
+    <Compile Include="Contracts\Mfa.cs" />
     <Compile Include="Contracts\Options.cs" />
+    <Compile Include="Contracts\Question.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="IPlaidClient.cs" />
     <Compile Include="PlaidClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

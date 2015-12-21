@@ -34,7 +34,7 @@ namespace Plaid.Contracts
         /// <value>
         /// The pin.
         /// </value>
-        [DataMember(Name = "pin")]
+        [DataMember(Name = "pin", EmitDefaultValue = false)]
         public string Pin { get; set; }
     }
 }
