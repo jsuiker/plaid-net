@@ -1,15 +1,14 @@
-﻿using System.Runtime.Serialization;
+﻿using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace Plaid.Contracts
 {
-    [DataContract]
     public enum MfaType
     {
-        [EnumMember(Value = "questions")]
+        NotAvailable = 0,
         Questions,
-        [EnumMember(Value = "selections")]
         Selections,
-        [EnumMember(Value = "device")]
-        Device
+        Device,
+        List
     }
 }

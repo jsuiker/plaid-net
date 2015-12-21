@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace Plaid.Contracts
 {
-    public class Mfa : List<MfaEntry>
-    {
-        public string Message { get; set; }
+    public class UserResponse : MfaResponse
+    {        
+        [JsonProperty("accounts")]
+        public List<Account> Accounts { get; set; }       
     }
 }

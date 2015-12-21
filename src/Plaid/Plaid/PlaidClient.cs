@@ -62,17 +62,34 @@ namespace Plaid
 
 
         #region Private
-        private HttpContent GetContent(bool requiresAuthorization, string type, params object[] parameters)
+        private HttpContent GetContent(bool requiresAuthorization, string type, Credentials credentials, Options options, string accessToken = null)
         {
-            var content = new List<object>(parameters);
+            var content = new Dictionary<string, string>();
 
             if (requiresAuthorization)
-                content.Add(new Authorization() { ClientId = _clientId, Secret = _secret });
+            {
+                content.Add("client_id", _clientId);
+                content.Add("secret", _secret);
+            }
 
-            var result = Helper.ExtractContent(content.ToArray());
-            result.Add("type", type);
+            if (credentials != null)
+            {
+                content.Add("username", credentials.Username);
+                content.Add("password", credentials.Password);
+                if (credentials.Pin != null)
+                    content.Add("pin", credentials.Pin);
+            }
 
-            return new FormUrlEncodedContent(result);
+            if (type != null)
+                content.Add("type", type);
+
+            if (accessToken != null)
+                content.Add("access_token", accessToken);
+
+            if (options != null)
+                content.Add("options", JsonConvert.SerializeObject(options));
+
+            return new FormUrlEncodedContent(content);
         }
 
         private async Task<T> GetResult<T>(HttpResponseMessage response)

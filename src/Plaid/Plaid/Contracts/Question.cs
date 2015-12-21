@@ -1,15 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Plaid.Contracts
 {
-    [DataContract]
-    public class Question
+    public class MfaEntry
     {
-        [DataMember(Name = "question")]
-        public string Text { get; set; }
+        [JsonProperty("question")]
+        public string Question { get; set; }
 
-        [DataMember(Name = "answers")]
+        [JsonProperty("answers")]
         public List<string> Answers { get; set; }
+
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("mask")]
+        public string Mask { get; set; }
     }
 }
