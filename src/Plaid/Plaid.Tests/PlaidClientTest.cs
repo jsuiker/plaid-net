@@ -11,15 +11,15 @@ namespace Plaid.Tests
         [TestMethod]
         public async Task TestMethod1()
         {
-            var client = new PlaidClient("test_id", "test_secret", PlaidClient.ENVIRONMENT_DEVELOPMENT);
+            //var client = new PlaidClient("test_id", "test_secret", PlaidClient.ENVIRONMENT_DEVELOPMENT);
 
-            var response = await client.AddUser("info", "citi", new Credentials() { Username = "plaid_selections", Password = "plaid_good" }, new Options() { List = true });
+            //var response = await client.AddUser("info", "citi", new Credentials() { Username = "plaid_selections", Password = "plaid_good" }, new Options() { List = true });
 
-            var response2 = await client.GetUser("connect", "test_citi", null);
+            //var response2 = await client.GetUser("connect", "test_citi", null);
 
-            var step = await client.StepUser("info", "test_td", new[] { "tomato" }, options: null);
+            //var step = await client.StepUser("info", "test_td", new[] { "tomato" }, options: null);
 
-            var del = await client.DeleteUser("info", "test_td");
+            //var del = await client.DeleteUser("info", "test_td");
         }
     }
 }

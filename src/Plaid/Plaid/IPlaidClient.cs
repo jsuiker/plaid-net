@@ -18,5 +18,9 @@ namespace Plaid
         Task<UserResponse> PatchUserOptions(string product, string accessToken, Options options);
 
         Task<Response> DeleteUser(string product, string accessToken);
+
+        Task<UserResponse> GetBalance(string accessToken);
+
+        Task<UserResponse> UpgradeUser(string accessToken, string upgradeTo, Options options);
     }
 }

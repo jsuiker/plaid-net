@@ -142,7 +142,30 @@ namespace Plaid
 
             return await GetResponse<Response>(response);
         }
+        
+        public async Task<UserResponse> GetBalance(string accessToken)
+        {
+            dynamic body = new ExpandoObject();
+            body.access_token = accessToken;
 
+            var response = await _httpClient.SendAsync(AuthenticatedRequest("POST", "balance", body));
+
+            return await GetResponse<Response>(response);
+        }
+
+        public async Task<UserResponse> UpgradeUser(string accessToken, string upgradeTo, Options options)
+        {
+            dynamic body = new ExpandoObject();
+            body.access_token = accessToken;
+            body.upgrade_to = upgradeTo;
+
+            if (options != null)
+                body.options = GetOptions(options);
+
+            var response = await _httpClient.SendAsync(AuthenticatedRequest("POST", "upgrade", body));
+
+            return await GetResponse<Response>(response);
+        }
 
         #region Private
         private HttpRequestMessage AuthenticatedRequest(string method, string path, dynamic body)
@@ -192,7 +215,7 @@ namespace Plaid
 
             return resp;
         }
-
+        
         #endregion
 
 
