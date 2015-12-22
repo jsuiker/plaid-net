@@ -45,5 +45,87 @@ namespace Plaid.Tests
             Assert.IsNotNull(result.Data);
             Assert.IsNull(result.Error);
         }
+
+        [TestMethod]
+        public async Task AddUser_WithOptions_Returns_OK()
+        {
+            var result = await _client.AddUser("info", "citi", new Credentials { Username = "plaid_test", Password = "plaid_good" }, new Options());
+
+            Assert.AreEqual(result.StatusCode, HttpStatusCode.OK);
+            Assert.IsNotNull(result.Data);
+            Assert.IsNull(result.Error);
+        }
+
+        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        public async Task AddUser_Throws_MissingCredentials()
+        {
+            await _client.AddUser("test", "test", null, null);
+        }
+
+        #region Institution Tests
+        [TestMethod]
+        public async Task GetInstitutions_Success()
+        {
+            var result = await _client.GetInstitutions();
+
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.OK);
+            Assert.IsNotNull(result.Data);
+            Assert.IsNull(result.Error);
+        }
+
+        [TestMethod]
+        public async Task GetInstitution_Id_Success()
+        {
+            var result = await _client.GetInstitution("5301a93ac140de84910000e0");
+
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.OK);
+            Assert.IsNotNull(result.Data);
+            Assert.IsNull(result.Error);
+        }
+
+        [TestMethod]
+        public async Task GetInstitution_Id_NotFound()
+        {
+            var result = await _client.GetInstitution("unknown");
+
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.NotFound);
+            Assert.IsNull(result.Data);
+            Assert.IsNotNull(result.Error);
+            Assert.IsTrue(result.Error.Code == 1301);
+        }
+        #endregion
+
+        #region Category Tests
+        [TestMethod]
+        public async Task GetCategories_Success()
+        {
+            var result = await _client.GetCategories();
+
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.OK);
+            Assert.IsNotNull(result.Data);
+            Assert.IsNull(result.Error);
+        }
+
+        [TestMethod]
+        public async Task GetCategory_Id_Success()
+        {
+            var result = await _client.GetCategory("10000000");
+
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.OK);
+            Assert.IsNotNull(result.Data);
+            Assert.IsNull(result.Error);
+        }
+
+        [TestMethod]
+        public async Task GetCategory_Id_NotFound()
+        {
+            var result = await _client.GetCategory("unknown");
+
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.NotFound);
+            Assert.IsNull(result.Data);
+            Assert.IsNotNull(result.Error);
+            Assert.IsTrue(result.Error.Code == 1501);
+        }
+        #endregion
     }
 }
