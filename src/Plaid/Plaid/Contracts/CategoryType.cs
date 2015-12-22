@@ -4,6 +4,7 @@
     {
         NotAvailable,
         Place,
-        Special
+        Special,
+        Digital
     }
 }

@@ -14,7 +14,7 @@ namespace Plaid
         /// <param name="credentials">The credentials.</param>
         /// <param name="options">The options.</param>
         /// <returns></returns>
-        Task<UserResponse> AddUser(string product, string type, Credentials credentials, Options options);
+        Task<Response<UserData>> AddUser(string product, string type, Credentials credentials, Options options);
 
         /// <summary>
         /// Gets the user.
@@ -23,7 +23,7 @@ namespace Plaid
         /// <param name="accessToken">The access token.</param>
         /// <param name="options">The options.</param>
         /// <returns></returns>
-        Task<UserResponse> GetUser(string product, string accessToken, Options options);
+        Task<Response<UserData>> GetUser(string product, string accessToken, Options options);
 
         /// <summary>
         /// Steps the user.
@@ -33,7 +33,7 @@ namespace Plaid
         /// <param name="mfaResponses">The mfa responses.</param>
         /// <param name="options">The options.</param>
         /// <returns></returns>
-        Task<UserResponse> StepUser(string product, string accessToken, string[] mfaResponses, Options options);
+        Task<Response<UserData>> StepUser(string product, string accessToken, string[] mfaResponses, Options options);
 
         /// <summary>
         /// Patches the user.
@@ -42,7 +42,7 @@ namespace Plaid
         /// <param name="accessToken">The access token.</param>
         /// <param name="credentials">The credentials.</param>
         /// <returns></returns>
-        Task<UserResponse> PatchUser(string product, string accessToken, Credentials credentials);
+        Task<Response<UserData>> PatchUser(string product, string accessToken, Credentials credentials);
 
         /// <summary>
         /// Patches the step user.
@@ -51,7 +51,7 @@ namespace Plaid
         /// <param name="accessToken">The access token.</param>
         /// <param name="mfaResponses">The mfa responses.</param>
         /// <returns></returns>
-        Task<UserResponse> PatchStepUser(string product, string accessToken, string[] mfaResponses);
+        Task<Response<UserData>> PatchStepUser(string product, string accessToken, string[] mfaResponses);
 
         /// <summary>
         /// Patches the user options.
@@ -60,7 +60,7 @@ namespace Plaid
         /// <param name="accessToken">The access token.</param>
         /// <param name="options">The options.</param>
         /// <returns></returns>
-        Task<UserResponse> PatchUserOptions(string product, string accessToken, Options options);
+        Task<Response<UserData>> PatchUserOptions(string product, string accessToken, Options options);
 
         /// <summary>
         /// Deletes the user.
@@ -75,7 +75,7 @@ namespace Plaid
         /// </summary>
         /// <param name="accessToken">The access token.</param>
         /// <returns></returns>
-        Task<UserResponse> GetBalance(string accessToken);
+        Task<Response<UserData>> GetBalance(string accessToken);
 
         /// <summary>
         /// Upgrades the user.
@@ -84,32 +84,32 @@ namespace Plaid
         /// <param name="upgradeTo">The upgrade to.</param>
         /// <param name="options">The options.</param>
         /// <returns></returns>
-        Task<UserResponse> UpgradeUser(string accessToken, string upgradeTo, Options options);
+        Task<Response<UserData>> UpgradeUser(string accessToken, string upgradeTo, Options options);
 
         /// <summary>
         /// Gets the institutions.
         /// </summary>
         /// <returns></returns>
-        Task<List<Institution>> GetInstitutions();
+        Task<Response<Institution[]>> GetInstitutions();
 
         /// <summary>
         /// Gets the institution.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        Task<Institution> GetInstitution(string id);
+        Task<Response<Institution>> GetInstitution(string id);
 
         /// <summary>
         /// Gets the categories.
         /// </summary>
         /// <returns></returns>
-        Task<List<Category>> GetCategories();
+        Task<Response<Category[]>> GetCategories();
 
         /// <summary>
         /// Gets the category.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        Task<Category> GetCategory(string id);
+        Task<Response<Category>> GetCategory(string id);
     }
 }
