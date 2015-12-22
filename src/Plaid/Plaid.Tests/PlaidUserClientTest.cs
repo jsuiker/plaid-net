@@ -120,5 +120,37 @@ namespace Plaid.Tests
             Assert.IsNotNull(result.Error);
             Assert.IsTrue(result.Error.Code == 1300);
         }
+
+        [TestMethod]
+        public async Task GetUser_Returns_OK()
+        {
+            var result = await _userClient.GetUser("info", "test", null);
+
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.OK);
+            Assert.IsNotNull(result.Data);
+            Assert.IsTrue(result.Data.Accounts.Count > 0);
+            Assert.IsNull(result.Error);
+        }
+
+        [TestMethod]
+        public async Task GetUser_Returns_Unauthorized()
+        {
+            var result = await _userClient.GetUser("info", "unknown", null);
+
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.Unauthorized);
+            Assert.IsNull(result.Data);
+            Assert.IsNotNull(result.Error);
+            Assert.IsTrue(result.Error.Code == 1105);
+        }
+
+        [TestMethod]
+        public async Task DeleteUser_Returns_OK()
+        {
+            var result = await _userClient.DeleteUser("info", "test");
+
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.OK);
+            Assert.IsNull(result.Error);
+            Assert.IsNotNull(result.Message);
+        }
     }
 }

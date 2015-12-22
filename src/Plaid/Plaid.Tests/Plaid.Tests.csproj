@@ -69,8 +69,17 @@
     <None Include="FakeResponses\categories\GET_10000000_200.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="FakeResponses\info\POST_200.json">
+    <None Include="FakeResponses\info\DELETE_200.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="FakeResponses\info\get\POST_200.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="FakeResponses\info\get\POST_401.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="FakeResponses\info\POST_200.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="FakePlaidUserClient.cs" />
     <None Include="FakeResponses\info\POST_404_unknown.json">
@@ -112,7 +121,6 @@
   <ItemGroup>
     <Folder Include="FakeResponses\balance\" />
     <Folder Include="FakeResponses\connect\get\" />
-    <Folder Include="FakeResponses\info\get\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

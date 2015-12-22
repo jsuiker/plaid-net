@@ -52,27 +52,40 @@ namespace Plaid.Tests
                         return GetResponse("categories/GET_404.json", HttpStatusCode.NotFound);
                 }
             #endregion
-            
-            if (url.StartsWith("/info") && method == "POST")
-                switch (url)
-                {
-                    case "/info":
-                        switch (type)
-                        {
-                            case "questions":
-                                return GetResponse("info/POST_201_questions.json", HttpStatusCode.Created);
-                            case "selections":
-                                return GetResponse("info/POST_201_selections.json", HttpStatusCode.Created);
-                            case "list":
-                                return GetResponse("info/POST_201_list.json", HttpStatusCode.Created);
-                            case "device":
-                                return GetResponse("info/POST_201_device.json", HttpStatusCode.Created);
-                            case "unknown":
-                                return GetResponse("info/POST_404_unknown.json", HttpStatusCode.NotFound);
-                        }
-                        return GetResponse("info/POST_200.json", HttpStatusCode.OK);
-                }
 
+            if (url.StartsWith("/info"))
+                switch (method)
+                {
+                    case "POST":
+                        switch (url)
+                        {
+                            case "/info":
+                                switch (type)
+                                {
+                                    case "questions":
+                                        return GetResponse("info/POST_201_questions.json", HttpStatusCode.Created);
+                                    case "selections":
+                                        return GetResponse("info/POST_201_selections.json", HttpStatusCode.Created);
+                                    case "list":
+                                        return GetResponse("info/POST_201_list.json", HttpStatusCode.Created);
+                                    case "device":
+                                        return GetResponse("info/POST_201_device.json", HttpStatusCode.Created);
+                                    case "unknown":
+                                        return GetResponse("info/POST_404_unknown.json", HttpStatusCode.NotFound);
+                                }
+                                return GetResponse("info/POST_200.json", HttpStatusCode.OK);
+                            case "/info/get":
+                                switch (accessToken)
+                                {
+                                    case "test":
+                                        return GetResponse("info/get/POST_200.json", HttpStatusCode.OK);
+                                }
+                                return GetResponse("info/get/POST_401.json", HttpStatusCode.Unauthorized);
+                        }
+                        break;
+                    case "DELETE":
+                        return GetResponse("info/DELETE_200.json", HttpStatusCode.OK);
+                }
             throw new Exception("Unsupported scenario.");
         }
 
