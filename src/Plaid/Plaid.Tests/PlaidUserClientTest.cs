@@ -72,6 +72,53 @@ namespace Plaid.Tests
             Assert.IsTrue(result.Data.MfaType == MfaType.Questions);
             Assert.IsNull(result.Error);
         }
-        
+
+        [TestMethod]
+        public async Task AddUser_Returns_Mfa_Selections()
+        {
+            var result = await _userClient.AddUser("info", "selections", new Credentials { Username = "plaid_test", Password = "plaid_good" }, null);
+
+            Assert.AreEqual(result.StatusCode, HttpStatusCode.Created);
+            Assert.IsNotNull(result.Data);
+            Assert.IsNotNull(result.Data.Mfa);
+            Assert.IsTrue(result.Data.MfaType == MfaType.Selections);
+            Assert.IsNull(result.Error);
+        }
+
+        [TestMethod]
+        public async Task AddUser_Returns_Mfa_List()
+        {
+            var result = await _userClient.AddUser("info", "list", new Credentials { Username = "plaid_test", Password = "plaid_good" }, new Options { List = true });
+
+            Assert.AreEqual(result.StatusCode, HttpStatusCode.Created);
+            Assert.IsNotNull(result.Data);
+            Assert.IsNotNull(result.Data.Mfa);
+            Assert.IsTrue(result.Data.Mfa.Count > 1);
+            Assert.IsTrue(result.Data.MfaType == MfaType.List);
+            Assert.IsNull(result.Error);
+        }
+
+        [TestMethod]
+        public async Task AddUser_Returns_Mfa_Device()
+        {
+            var result = await _userClient.AddUser("info", "device", new Credentials { Username = "plaid_test", Password = "plaid_good" }, null);
+
+            Assert.AreEqual(result.StatusCode, HttpStatusCode.Created);
+            Assert.IsNotNull(result.Data);
+            Assert.IsNotNull(result.Data.Mfa);
+            Assert.IsTrue(result.Data.MfaType == MfaType.Device);
+            Assert.IsNull(result.Error);
+        }
+
+        [TestMethod]
+        public async Task AddUser_Returns_UnknownInstitution()
+        {
+            var result = await _userClient.AddUser("info", "unknown", new Credentials { Username = "plaid_test", Password = "plaid_good" }, null);
+
+            Assert.AreEqual(result.StatusCode, HttpStatusCode.NotFound);
+            Assert.IsNull(result.Data);
+            Assert.IsNotNull(result.Error);
+            Assert.IsTrue(result.Error.Code == 1300);
+        }
     }
 }

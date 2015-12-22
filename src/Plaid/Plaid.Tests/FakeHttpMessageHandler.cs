@@ -57,8 +57,19 @@ namespace Plaid.Tests
                 switch (url)
                 {
                     case "/info":
-                        if (type == "questions")
-                            return GetResponse("info/POST_201_questions.json", HttpStatusCode.Created);
+                        switch (type)
+                        {
+                            case "questions":
+                                return GetResponse("info/POST_201_questions.json", HttpStatusCode.Created);
+                            case "selections":
+                                return GetResponse("info/POST_201_selections.json", HttpStatusCode.Created);
+                            case "list":
+                                return GetResponse("info/POST_201_list.json", HttpStatusCode.Created);
+                            case "device":
+                                return GetResponse("info/POST_201_device.json", HttpStatusCode.Created);
+                            case "unknown":
+                                return GetResponse("info/POST_404_unknown.json", HttpStatusCode.NotFound);
+                        }
                         return GetResponse("info/POST_200.json", HttpStatusCode.OK);
                 }
 

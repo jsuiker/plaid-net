@@ -73,11 +73,23 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Include="FakePlaidUserClient.cs" />
+    <None Include="FakeResponses\info\POST_404_unknown.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Compile Include="FakeSettings.cs" />
     <Compile Include="PlaidPublicClientTests.cs" />
     <Compile Include="PlaidUserClientTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="FakeResponses\info\POST_201_device.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="FakeResponses\info\POST_201_list.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="FakeResponses\info\POST_201_questions.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="FakeResponses\info\POST_201_selections.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="FakeResponses\institutions\GET_404.json">
