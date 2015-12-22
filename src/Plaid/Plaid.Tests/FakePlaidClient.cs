@@ -7,7 +7,7 @@ namespace Plaid.Tests
     public class FakePlaidClient : PlaidClient
     {
         public FakePlaidClient()
-            : base("test_id", "test_secret", "test_env")
+            : base("test_id", "test_secret", EnvironmentDevelopment)
         {
         }
 

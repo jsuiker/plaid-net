@@ -34,16 +34,16 @@ namespace Plaid.Serialization
         {
             var result = new Mfa();
 
-            var o = JToken.Load(reader);
-
-            if (o.Type == JTokenType.Array)
+            var jToken = JToken.Load(reader);
+            switch (jToken.Type)
             {
-                result.AddRange(o.ToObject<List<MfaEntry>>());
-            }
-            else if (o.Type == JTokenType.Object)
-            {
-                if (o["message"] != null)
-                    result.Message = o["message"].Value<string>();
+                case JTokenType.Array:
+                    result.AddRange(jToken.ToObject<List<MfaEntry>>());
+                    break;
+                case JTokenType.Object:
+                    if (jToken["message"] != null)
+                        result.Message = jToken["message"].Value<string>();
+                    break;
             }
 
             return result;

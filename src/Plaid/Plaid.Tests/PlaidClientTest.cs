@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Plaid.Contracts;
 using System.Threading.Tasks;
@@ -6,26 +8,42 @@ using System.Threading.Tasks;
 namespace Plaid.Tests
 {
     [TestClass]
+    [SuppressMessage("ReSharper", "ObjectCreationAsStatement")]
     public class PlaidClientTest
     {
-        [TestMethod]
-        public async Task TestMethod1()
+        private readonly IPlaidClient _client;
+
+        public PlaidClientTest()
         {
-            //var client = new PlaidClient("test_id", "test_secret", PlaidClient.EnvironmentDevelopment);
+            _client = new FakePlaidClient();
+        }
 
-            //var del = await client.DeleteUser("info", "test_td");
-            
-            //var categories = await client.GetCategories();
+        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        public void Ctor_Throws_MissingClientId()
+        {
+            new PlaidClient(null, "test", "test");
+        }
 
-            //var institutions = await client.GetInstitutions();
+        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        public void Ctor_Throws_MissingSecret()
+        {
+            new PlaidClient("test", null, "test");
+        }
 
-            //var response = await client.AddUser("info", "citi", new Credentials() { Username = "plaid_selections", Password = "plaid_good" }, new Options() { List = true });
+        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        public void Ctor_Throws_MissingEnv()
+        {
+            new PlaidClient("test", "test", null);
+        }
 
-            //var response2 = await client.GetUser("connect", "test_citi", null);
+        [TestMethod]
+        public async Task AddUser_Returns_OK()
+        {
+            var result = await _client.AddUser("info", "citi", new Credentials { Username = "plaid_test", Password = "plaid_good" }, null);
 
-            //var step = await client.StepUser("info", "test_td", new[] { "tomato" }, options: null);
-
-            //var del = await client.DeleteUser("info", "test_td");
+            Assert.AreEqual(result.StatusCode, HttpStatusCode.OK);
+            Assert.IsNotNull(result.Data);
+            Assert.IsNull(result.Error);
         }
     }
 }
