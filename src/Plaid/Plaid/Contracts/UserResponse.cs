@@ -12,6 +12,9 @@ namespace Plaid.Contracts
     public class UserResponse : MfaResponse
     {        
         [JsonProperty("accounts")]
-        public List<Account> Accounts { get; set; }       
+        public List<Account> Accounts { get; set; }    
+        
+        [JsonProperty("transactions")]
+        public List<Transaction> Transactions { get; set; }   
     }
 }

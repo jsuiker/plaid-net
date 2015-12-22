@@ -7,13 +7,7 @@ using System.Threading.Tasks;
 
 namespace Plaid
 {
-    [DataContract]
     public class PlaidException : Exception
-    {
-        [DataMember(Name = "code")]
-        public int Code { get; set; }
-
-        [DataMember(Name = "resolve")]
-        public string Resolve { get; set; }
+    {        
     }
 }

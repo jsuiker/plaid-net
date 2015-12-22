@@ -5,7 +5,8 @@ namespace Plaid.Contracts
     [DataContract]
     public enum AccountType
     {
-        [EnumMember(Value = "depository")]
-        Depository
+        NotAvailable = 0,
+        Depository,
+        Credit
     }
 }

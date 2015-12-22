@@ -2,12 +2,10 @@
 
 namespace Plaid.Contracts
 {
-    [DataContract]
     public enum AccountSubType
     {
-        [EnumMember(Value = "checking")]
+        NotAvailable = 0,
         Checking,
-        [EnumMember(Value = "savings")]
         Savings
     }
 }

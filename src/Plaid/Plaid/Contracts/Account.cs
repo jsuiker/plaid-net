@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Runtime.Serialization;
 
 namespace Plaid.Contracts
@@ -21,8 +22,10 @@ namespace Plaid.Contracts
         [DataMember(Name = "meta")]
         public AccountMetadata Metadata { get; set; }
 
+        [JsonProperty("type")]
         public AccountType Type { get; set; }
 
+        [JsonProperty("subtype")]
         public AccountSubType SubType { get; set; }
     }
 }

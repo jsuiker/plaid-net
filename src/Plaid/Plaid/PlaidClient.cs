@@ -2,6 +2,7 @@
 using Plaid.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -47,91 +48,98 @@ namespace Plaid
         /// <returns></returns>
         protected virtual HttpClient GetHttpClient()
         {
-            return new HttpClient();
+            var client = new HttpClient();
+            return client;
         }
 
         public async Task<UserResponse> AddUser(string product, string type, Credentials credentials, Options options)
         {
-            await Task.Yield();
+            var response = await _httpClient.PostAsync(new Uri($"{_environment}/{product}"), 
+                GetContent(true, type, credentials, options));
 
-            var response = await _httpClient.PostAsync(new Uri($"{_environment}/{product}"), GetContent(true, type, credentials, options));
+            return await GetResponse<UserResponse>(response);
+        }
 
-            return await GetResult<UserResponse>(response);
+        public async Task<UserResponse> GetUser(string product, string accessToken, Options options)
+        {
+            var response = await _httpClient.PostAsync(new Uri($"{_environment}/{product}/get"), 
+                GetContent(true, null, null, options, accessToken));
+
+            return await GetResponse<UserResponse>(response);
+        }
+        
+        public async Task<UserResponse> StepUser(string product, string accessToken, string[] mfaResponses, Options options)
+        {
+            var response = await _httpClient.PostAsync(new Uri($"{_environment}/{product}/step"), 
+                GetContent(true, type: null, credentials: null, options: options, accessToken: accessToken, mfaResponses: mfaResponses));
+
+            return await GetResponse<UserResponse>(response);
         }
 
 
-
         #region Private
-        private HttpContent GetContent(bool requiresAuthorization, string type, Credentials credentials, Options options, string accessToken = null)
+        private HttpContent GetContent(bool requiresAuthorization, string type = null, Credentials credentials = null, Options options = null, string accessToken = null, string mfaResponse = null, string[] mfaResponses = null)
         {
             var content = new Dictionary<string, string>();
+            dynamic d = new ExpandoObject();
 
             if (requiresAuthorization)
             {
-                content.Add("client_id", _clientId);
-                content.Add("secret", _secret);
+                d.client_id = _clientId;
+                d.secret = _secret;
             }
 
             if (credentials != null)
             {
-                content.Add("username", credentials.Username);
-                content.Add("password", credentials.Password);
+                d.username = credentials.Username;
+                d.password = credentials.Password;
                 if (credentials.Pin != null)
-                    content.Add("pin", credentials.Pin);
+                    d.pin = credentials.Pin;
             }
 
             if (type != null)
-                content.Add("type", type);
+                d.type = type;
 
             if (accessToken != null)
-                content.Add("access_token", accessToken);
+                d.access_token = accessToken;
 
             if (options != null)
-                content.Add("options", JsonConvert.SerializeObject(options));
+                d.options = JsonConvert.SerializeObject(options);
 
-            return new FormUrlEncodedContent(content);
+            if (mfaResponse != null)
+                d.mfa = mfaResponse;
+            else if (mfaResponses != null)
+                d.mfa = mfaResponses;
+
+            var c = new StringContent(JsonConvert.SerializeObject(d));
+            c.Headers.ContentType.MediaType = "application/json";
+            return c;
         }
 
-        private async Task<T> GetResult<T>(HttpResponseMessage response)
+        private async Task<T> GetResponse<T>(HttpResponseMessage response)
             where T : Response, new()
         {
-            ResponseCode responseCode;
+            ResponseCode responseCode = (ResponseCode)response.StatusCode;
+
+            if (!Enum.IsDefined(typeof(ResponseCode), responseCode))
+                throw new PlaidException();
 
             T resp;
 
-            switch (response.StatusCode)
+            if (response.IsSuccessStatusCode)
             {
-                case System.Net.HttpStatusCode.OK:
-                    responseCode = ResponseCode.Success;
-                    resp = await Response<T>(response.Content);
-                    break;
-                case System.Net.HttpStatusCode.Created:
-                    responseCode = ResponseCode.MFARequired;
-                    resp = await Response<T>(response.Content);
-                    break;
-                default:
-                    responseCode = (ResponseCode)response.StatusCode;
-                    resp = new T();
-                    resp.Error = await Response<Error>(response.Content);
-                    break;
+                resp = JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
             }
-
+            else
+            {
+                resp = new T();
+                resp.Error = JsonConvert.DeserializeObject<Error>(await response.Content.ReadAsStringAsync());
+            }
             resp.ResponseCode = responseCode;
 
             return resp;
         }
 
-        private async Task<T> Response<T>(HttpContent content)
-        {
-            try
-            {
-                return JsonConvert.DeserializeObject<T>(await content.ReadAsStringAsync());
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-        }
         #endregion
 
 
