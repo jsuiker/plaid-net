@@ -2,6 +2,7 @@
 using Plaid.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
@@ -24,6 +25,20 @@ namespace Plaid
 
         private readonly HttpClient _httpClient;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlaidClient"/> class.
+        /// </summary>
+        /// <param name="clientId">The client identifier.</param>
+        /// <param name="secret">The secret.</param>
+        /// <param name="environment">The environment.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Missing Plaid Client Id
+        /// or
+        /// Missing Plaid Secret
+        /// or
+        /// Missing Plaid Environment URL
+        /// </exception>
+        [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public PlaidClient(string clientId, string secret, string environment)
         {
             if (clientId == null)
@@ -48,12 +63,23 @@ namespace Plaid
         /// <returns></returns>
         protected virtual HttpClient GetHttpClient()
         {
-            var client = new HttpClient();
-            return client;
+            return new HttpClient();
         }
 
+        /// <summary>
+        /// Adds the user.
+        /// </summary>
+        /// <param name="product">The product.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="credentials">The credentials.</param>
+        /// <param name="options">The options.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">Missing credentials</exception>
         public async Task<UserResponse> AddUser(string product, string type, Credentials credentials, Options options)
         {
+            if (credentials == null)
+                throw new ArgumentNullException(nameof(credentials), "Missing credentials");
+
             dynamic body = new ExpandoObject();
             body.type = type;
             body.username = credentials.Username;
@@ -65,9 +91,16 @@ namespace Plaid
 
             var response = await _httpClient.SendAsync(AuthenticatedRequest("POST", product, body));
 
-            return await GetResponse<UserResponse>(response);
+            return await Parse<UserResponse>(response);
         }
 
+        /// <summary>
+        /// Gets the user.
+        /// </summary>
+        /// <param name="product">The product.</param>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="options">The options.</param>
+        /// <returns></returns>
         public async Task<UserResponse> GetUser(string product, string accessToken, Options options)
         {
             dynamic body = new ExpandoObject();
@@ -78,9 +111,17 @@ namespace Plaid
 
             var response = await _httpClient.SendAsync(AuthenticatedRequest("POST", $"{product}/get", body));
 
-            return await GetResponse<UserResponse>(response);
+            return await Parse<UserResponse>(response);
         }
 
+        /// <summary>
+        /// Steps the user.
+        /// </summary>
+        /// <param name="product">The product.</param>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="mfaResponses">The mfa responses.</param>
+        /// <param name="options">The options.</param>
+        /// <returns></returns>
         public async Task<UserResponse> StepUser(string product, string accessToken, string[] mfaResponses, Options options)
         {
             dynamic body = new ExpandoObject();
@@ -92,9 +133,16 @@ namespace Plaid
 
             var response = await _httpClient.SendAsync(AuthenticatedRequest("POST", $"{product}/step", body));
 
-            return await GetResponse<UserResponse>(response);
+            return await Parse<UserResponse>(response);
         }
 
+        /// <summary>
+        /// Patches the user.
+        /// </summary>
+        /// <param name="product">The product.</param>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="credentials">The credentials.</param>
+        /// <returns></returns>
         public async Task<UserResponse> PatchUser(string product, string accessToken, Credentials credentials)
         {
             dynamic body = new ExpandoObject();
@@ -105,9 +153,16 @@ namespace Plaid
 
             var response = await _httpClient.SendAsync(AuthenticatedRequest("PATCH", product, body));
 
-            return await GetResponse<UserResponse>(response);
+            return await Parse<UserResponse>(response);
         }
 
+        /// <summary>
+        /// Patches the step user.
+        /// </summary>
+        /// <param name="product">The product.</param>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="mfaResponses">The mfa responses.</param>
+        /// <returns></returns>
         public async Task<UserResponse> PatchStepUser(string product, string accessToken, string[] mfaResponses)
         {
             dynamic body = new ExpandoObject();
@@ -116,9 +171,17 @@ namespace Plaid
             
             var response = await _httpClient.SendAsync(AuthenticatedRequest("PATCH", $"{product}/step", body));
 
-            return await GetResponse<UserResponse>(response);
+            return await Parse<UserResponse>(response);
         }
 
+        /// <summary>
+        /// Patches the user options.
+        /// </summary>
+        /// <param name="product">The product.</param>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="options">The options.</param>
+        /// <returns></returns>
+        /// <exception cref="System.ArgumentNullException">Missing options</exception>
         public async Task<UserResponse> PatchUserOptions(string product, string accessToken, Options options)
         {
             if (options == null)
@@ -130,9 +193,15 @@ namespace Plaid
 
             var response = await _httpClient.SendAsync(AuthenticatedRequest("PATCH", product, body));
 
-            return await GetResponse<UserResponse>(response);
+            return await Parse<UserResponse>(response);
         }
 
+        /// <summary>
+        /// Deletes the user.
+        /// </summary>
+        /// <param name="product">The product.</param>
+        /// <param name="accessToken">The access token.</param>
+        /// <returns></returns>
         public async Task<Response> DeleteUser(string product, string accessToken)
         {
             dynamic body = new ExpandoObject();
@@ -140,9 +209,14 @@ namespace Plaid
 
             var response = await _httpClient.SendAsync(AuthenticatedRequest("DELETE", product, body));
 
-            return await GetResponse<Response>(response);
+            return await Parse<Response>(response);
         }
-        
+
+        /// <summary>
+        /// Gets the balance.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <returns></returns>
         public async Task<UserResponse> GetBalance(string accessToken)
         {
             dynamic body = new ExpandoObject();
@@ -150,9 +224,16 @@ namespace Plaid
 
             var response = await _httpClient.SendAsync(AuthenticatedRequest("POST", "balance", body));
 
-            return await GetResponse<Response>(response);
+            return await Parse<Response>(response);
         }
 
+        /// <summary>
+        /// Upgrades the user.
+        /// </summary>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="upgradeTo">The upgrade to.</param>
+        /// <param name="options">The options.</param>
+        /// <returns></returns>
         public async Task<UserResponse> UpgradeUser(string accessToken, string upgradeTo, Options options)
         {
             dynamic body = new ExpandoObject();
@@ -164,7 +245,53 @@ namespace Plaid
 
             var response = await _httpClient.SendAsync(AuthenticatedRequest("POST", "upgrade", body));
 
-            return await GetResponse<Response>(response);
+            return await Parse<Response>(response);
+        }
+
+        /// <summary>
+        /// Gets the institutions.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Institution>> GetInstitutions()
+        {
+            var response = await _httpClient.SendAsync(PublicRequest("GET", "institutions", new { }));
+
+            return JsonConvert.DeserializeObject<List<Institution>>(await response.Content.ReadAsStringAsync());
+        }
+
+        /// <summary>
+        /// Gets the institution.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public async Task<Institution> GetInstitution(string id)
+        {
+            var response = await _httpClient.SendAsync(PublicRequest("GET", $"institutions/{id}", new { }));
+
+            return JsonConvert.DeserializeObject<Institution>(await response.Content.ReadAsStringAsync());
+        }
+
+        /// <summary>
+        /// Gets the categories.
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Category>> GetCategories()
+        {
+            var response = await _httpClient.SendAsync(PublicRequest("GET", "categories", new { }));
+
+            return JsonConvert.DeserializeObject<List<Category>>(await response.Content.ReadAsStringAsync());
+        }
+
+        /// <summary>
+        /// Gets the category.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
+        public async Task<Category> GetCategory(string id)
+        {
+            var response = await _httpClient.SendAsync(PublicRequest("GET", $"categories/{id}", new { }));
+
+            return JsonConvert.DeserializeObject<Category>(await response.Content.ReadAsStringAsync());
         }
 
         #region Private
@@ -184,6 +311,16 @@ namespace Plaid
             };
         }
 
+        private HttpRequestMessage PublicRequest(string method, string path, dynamic body)
+        {
+            return new HttpRequestMessage()
+            {
+                Method = new HttpMethod(method),
+                RequestUri = new Uri($"{_environment}/{path}"),
+                Content = new StringContent(JsonConvert.SerializeObject(body), Encoding.UTF8, "application/json")
+            };
+        }
+
         private dynamic GetOptions(Options options)
         {
             var settings = new JsonSerializerSettings();
@@ -192,7 +329,7 @@ namespace Plaid
             return JsonConvert.SerializeObject(options, settings);
         }
 
-        private async Task<T> GetResponse<T>(HttpResponseMessage response)
+        private async Task<T> Parse<T>(HttpResponseMessage response)
             where T : Response, new()
         {
             ResponseCode responseCode = (ResponseCode)response.StatusCode;
@@ -215,7 +352,7 @@ namespace Plaid
 
             return resp;
         }
-        
+
         #endregion
 
 

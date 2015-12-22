@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Plaid
 {
+    [Serializable]
     public class PlaidException : Exception
     {        
     }

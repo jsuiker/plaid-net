@@ -51,8 +51,11 @@
     <Compile Include="Contracts\AccountType.cs" />
     <Compile Include="Contracts\Authorization.cs" />
     <Compile Include="Contracts\Balance.cs" />
+    <Compile Include="Contracts\Category.cs" />
+    <Compile Include="Contracts\CategoryType.cs" />
     <Compile Include="Contracts\Credentials.cs" />
     <Compile Include="Contracts\Error.cs" />
+    <Compile Include="Contracts\Institution.cs" />
     <Compile Include="Contracts\Response.cs" />
     <Compile Include="Contracts\Mfa.cs" />
     <Compile Include="Contracts\MfaResponse.cs" />
