@@ -18,6 +18,8 @@ namespace Plaid.Tests
             var response2 = await client.GetUser("connect", "test_citi", null);
 
             var step = await client.StepUser("info", "test_td", new[] { "tomato" }, options: null);
+
+            var del = await client.DeleteUser("info", "test_td");
         }
     }
 }

@@ -4,10 +4,10 @@ namespace Plaid.Contracts
 {
     public class Response
     {
-        [JsonIgnore]
         public ResponseCode ResponseCode { get; set; }
 
-        [JsonIgnore]
+        public string Message { get; set; }
+    
         public Error Error { get; set; }
     }
 }

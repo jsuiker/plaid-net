@@ -54,66 +54,119 @@ namespace Plaid
 
         public async Task<UserResponse> AddUser(string product, string type, Credentials credentials, Options options)
         {
-            var response = await _httpClient.PostAsync(new Uri($"{_environment}/{product}"), 
-                GetContent(true, type, credentials, options));
+            dynamic body = new ExpandoObject();
+            body.type = type;
+            body.username = credentials.Username;
+            body.password = credentials.Password;
+            body.pin = credentials.Pin;
+
+            if (options != null)
+                body.options = GetOptions(options);
+
+            var response = await _httpClient.SendAsync(AuthenticatedRequest("POST", product, body));
 
             return await GetResponse<UserResponse>(response);
         }
 
         public async Task<UserResponse> GetUser(string product, string accessToken, Options options)
         {
-            var response = await _httpClient.PostAsync(new Uri($"{_environment}/{product}/get"), 
-                GetContent(true, null, null, options, accessToken));
+            dynamic body = new ExpandoObject();
+            body.access_token = accessToken;
+
+            if (options != null)
+                body.options = GetOptions(options);
+
+            var response = await _httpClient.SendAsync(AuthenticatedRequest("POST", $"{product}/get", body));
 
             return await GetResponse<UserResponse>(response);
         }
-        
+
         public async Task<UserResponse> StepUser(string product, string accessToken, string[] mfaResponses, Options options)
         {
-            var response = await _httpClient.PostAsync(new Uri($"{_environment}/{product}/step"), 
-                GetContent(true, type: null, credentials: null, options: options, accessToken: accessToken, mfaResponses: mfaResponses));
+            dynamic body = new ExpandoObject();
+            body.access_token = accessToken;
+            body.mfa = mfaResponses;
+
+            if (options != null)
+                body.options = GetOptions(options);
+
+            var response = await _httpClient.SendAsync(AuthenticatedRequest("POST", $"{product}/step", body));
 
             return await GetResponse<UserResponse>(response);
+        }
+
+        public async Task<UserResponse> PatchUser(string product, string accessToken, Credentials credentials)
+        {
+            dynamic body = new ExpandoObject();
+            body.access_token = accessToken;
+            body.username = credentials.Username;
+            body.password = credentials.Password;
+            body.pin = credentials.Pin;
+
+            var response = await _httpClient.SendAsync(AuthenticatedRequest("PATCH", product, body));
+
+            return await GetResponse<UserResponse>(response);
+        }
+
+        public async Task<UserResponse> PatchStepUser(string product, string accessToken, string[] mfaResponses)
+        {
+            dynamic body = new ExpandoObject();
+            body.access_token = accessToken;
+            body.mfa = mfaResponses;
+            
+            var response = await _httpClient.SendAsync(AuthenticatedRequest("PATCH", $"{product}/step", body));
+
+            return await GetResponse<UserResponse>(response);
+        }
+
+        public async Task<UserResponse> PatchUserOptions(string product, string accessToken, Options options)
+        {
+            if (options == null)
+                throw new ArgumentNullException(nameof(options), "Missing options");
+
+            dynamic body = new ExpandoObject();
+            body.access_token = accessToken;
+            body.options = await GetOptions(options);
+
+            var response = await _httpClient.SendAsync(AuthenticatedRequest("PATCH", product, body));
+
+            return await GetResponse<UserResponse>(response);
+        }
+
+        public async Task<Response> DeleteUser(string product, string accessToken)
+        {
+            dynamic body = new ExpandoObject();
+            body.access_token = accessToken;
+
+            var response = await _httpClient.SendAsync(AuthenticatedRequest("DELETE", product, body));
+
+            return await GetResponse<Response>(response);
         }
 
 
         #region Private
-        private HttpContent GetContent(bool requiresAuthorization, string type = null, Credentials credentials = null, Options options = null, string accessToken = null, string mfaResponse = null, string[] mfaResponses = null)
+        private HttpRequestMessage AuthenticatedRequest(string method, string path, dynamic body)
         {
-            var content = new Dictionary<string, string>();
-            dynamic d = new ExpandoObject();
+            body.client_id = _clientId;
+            body.secret = _secret;
 
-            if (requiresAuthorization)
+            var settings = new JsonSerializerSettings();
+            settings.DefaultValueHandling = DefaultValueHandling.Ignore;
+
+            return new HttpRequestMessage()
             {
-                d.client_id = _clientId;
-                d.secret = _secret;
-            }
+                Method = new HttpMethod(method),
+                RequestUri = new Uri($"{_environment}/{path}"),
+                Content = new StringContent(JsonConvert.SerializeObject(body, settings), Encoding.UTF8, "application/json")
+            };
+        }
 
-            if (credentials != null)
-            {
-                d.username = credentials.Username;
-                d.password = credentials.Password;
-                if (credentials.Pin != null)
-                    d.pin = credentials.Pin;
-            }
+        private dynamic GetOptions(Options options)
+        {
+            var settings = new JsonSerializerSettings();
+            settings.DefaultValueHandling = DefaultValueHandling.Ignore;
 
-            if (type != null)
-                d.type = type;
-
-            if (accessToken != null)
-                d.access_token = accessToken;
-
-            if (options != null)
-                d.options = JsonConvert.SerializeObject(options);
-
-            if (mfaResponse != null)
-                d.mfa = mfaResponse;
-            else if (mfaResponses != null)
-                d.mfa = mfaResponses;
-
-            var c = new StringContent(JsonConvert.SerializeObject(d));
-            c.Headers.ContentType.MediaType = "application/json";
-            return c;
+            return JsonConvert.SerializeObject(options, settings);
         }
 
         private async Task<T> GetResponse<T>(HttpResponseMessage response)
