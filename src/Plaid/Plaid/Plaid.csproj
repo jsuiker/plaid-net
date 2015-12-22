@@ -63,9 +63,12 @@
     <Compile Include="Contracts\MfaType.cs" />
     <Compile Include="Contracts\Options.cs" />
     <Compile Include="Contracts\Question.cs" />
-    <Compile Include="IPlaidClient.cs" />
-    <Compile Include="Serialization\MfaJsonConverter.cs" />
+    <Compile Include="IPlaidUserClient.cs" />
+    <Compile Include="IPlaidPublicClient.cs" />
     <Compile Include="PlaidClient.cs" />
+    <Compile Include="PlaidPublicClient.cs" />
+    <Compile Include="Serialization\MfaJsonConverter.cs" />
+    <Compile Include="PlaidUserClient.cs" />
     <Compile Include="Exceptions\PlaidException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

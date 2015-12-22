@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Plaid
 {
-    public interface IPlaidClient
+    public interface IPlaidUserClient
     {
         /// <summary>
         /// Adds the user.
@@ -85,31 +85,5 @@ namespace Plaid
         /// <param name="options">The options.</param>
         /// <returns></returns>
         Task<Response<UserData>> UpgradeUser(string accessToken, string upgradeTo, Options options);
-
-        /// <summary>
-        /// Gets the institutions.
-        /// </summary>
-        /// <returns></returns>
-        Task<Response<Institution[]>> GetInstitutions();
-
-        /// <summary>
-        /// Gets the institution.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        Task<Response<Institution>> GetInstitution(string id);
-
-        /// <summary>
-        /// Gets the categories.
-        /// </summary>
-        /// <returns></returns>
-        Task<Response<Category[]>> GetCategories();
-
-        /// <summary>
-        /// Gets the category.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns></returns>
-        Task<Response<Category>> GetCategory(string id);
     }
 }

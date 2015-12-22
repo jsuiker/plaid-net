@@ -4,10 +4,10 @@ using System.Net.Http;
 
 namespace Plaid.Tests
 {
-    public class FakePlaidClient : PlaidClient
+    public class FakePlaidPublicClient : PlaidPublicClient
     {
-        public FakePlaidClient()
-            : base("test_id", "test_secret", EnvironmentDevelopment)
+        public FakePlaidPublicClient()
+            : base(EnvironmentDevelopment)
         {
         }
 

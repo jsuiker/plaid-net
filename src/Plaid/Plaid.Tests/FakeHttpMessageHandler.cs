@@ -52,21 +52,17 @@ namespace Plaid.Tests
                         return GetResponse("categories/GET_404.json", HttpStatusCode.NotFound);
                 }
             #endregion
-
-            try
-            {
-                var content = File.ReadAllText($"FakeResponses/{url}/POST_200.json");
-
-                return new HttpResponseMessage()
+            
+            if (url.StartsWith("/info") && method == "POST")
+                switch (url)
                 {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(content, Encoding.UTF8, "application/json")
-                };
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+                    case "/info":
+                        if (type == "questions")
+                            return GetResponse("info/POST_201_questions.json", HttpStatusCode.Created);
+                        return GetResponse("info/POST_200.json", HttpStatusCode.OK);
+                }
+
+            throw new Exception("Unsupported scenario.");
         }
 
         private HttpResponseMessage GetResponse(string resource, HttpStatusCode statusCode)
