@@ -56,12 +56,8 @@ namespace Plaid
 
             dynamic body = new ExpandoObject();
             body.type = type;
-            body.username = credentials.Username;
-            body.password = credentials.Password;
-            body.pin = credentials.Pin;
-
-            if (options != null)
-                body.options = GetOptions(options);
+            body.credentials = credentials;
+            body.options = options;
 
             var response = await HttpClient.SendAsync(AuthenticatedRequest("POST", product, body));
 
@@ -79,9 +75,7 @@ namespace Plaid
         {
             dynamic body = new ExpandoObject();
             body.access_token = accessToken;
-
-            if (options != null)
-                body.options = GetOptions(options);
+            body.options = options;
 
             var response = await HttpClient.SendAsync(AuthenticatedRequest("POST", $"{product}/get", body));
 
@@ -101,9 +95,7 @@ namespace Plaid
             dynamic body = new ExpandoObject();
             body.access_token = accessToken;
             body.mfa = mfaResponses;
-
-            if (options != null)
-                body.options = GetOptions(options);
+            body.options = options;
 
             var response = await HttpClient.SendAsync(AuthenticatedRequest("POST", $"{product}/step", body));
 
@@ -121,9 +113,7 @@ namespace Plaid
         {
             dynamic body = new ExpandoObject();
             body.access_token = accessToken;
-            body.username = credentials.Username;
-            body.password = credentials.Password;
-            body.pin = credentials.Pin;
+            body.credentials = credentials;
 
             var response = await HttpClient.SendAsync(AuthenticatedRequest("PATCH", product, body));
 
@@ -144,28 +134,6 @@ namespace Plaid
             body.mfa = mfaResponses;
 
             var response = await HttpClient.SendAsync(AuthenticatedRequest("PATCH", $"{product}/step", body));
-
-            return await Parse<UserData>(response);
-        }
-
-        /// <summary>
-        /// Patches the user options.
-        /// </summary>
-        /// <param name="product">The product.</param>
-        /// <param name="accessToken">The access token.</param>
-        /// <param name="options">The options.</param>
-        /// <returns></returns>
-        /// <exception cref="System.ArgumentNullException">Missing options</exception>
-        public async Task<Response<UserData>> PatchUserOptions(string product, string accessToken, Options options)
-        {
-            if (options == null)
-                throw new ArgumentNullException(nameof(options), "Missing options");
-
-            dynamic body = new ExpandoObject();
-            body.access_token = accessToken;
-            body.options = await GetOptions(options);
-
-            var response = await HttpClient.SendAsync(AuthenticatedRequest("PATCH", product, body));
 
             return await Parse<UserData>(response);
         }
@@ -213,9 +181,7 @@ namespace Plaid
             dynamic body = new ExpandoObject();
             body.access_token = accessToken;
             body.upgrade_to = upgradeTo;
-
-            if (options != null)
-                body.options = GetOptions(options);
+            body.options = options;
 
             var response = await HttpClient.SendAsync(AuthenticatedRequest("POST", "upgrade", body));
 
@@ -236,13 +202,6 @@ namespace Plaid
                 RequestUri = new Uri($"{Environment}/{path}"),
                 Content = new StringContent(JsonConvert.SerializeObject(body, settings), Encoding.UTF8, "application/json")
             };
-        }
-
-        private static dynamic GetOptions(Options options)
-        {
-            var settings = new JsonSerializerSettings { DefaultValueHandling = DefaultValueHandling.Ignore };
-
-            return JsonConvert.SerializeObject(options, settings);
         }
 
         #endregion

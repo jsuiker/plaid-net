@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Resources;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Plaid.Tests
+namespace Plaid.Tests.Fakes
 {
     public class FakeHttpMessageHandler : HttpMessageHandler
     {
@@ -20,11 +17,8 @@ namespace Plaid.Tests
             var body = request.Content == null ? new JObject() : JsonConvert.DeserializeObject<JToken>(await request.Content.ReadAsStringAsync());
             var url = request.RequestUri.AbsolutePath;
             var method = request.Method.Method;
-
-            var username = body["username"]?.Value<string>();
-            var password = body["password"]?.Value<string>();
+            
             var accessToken = body["access_token"]?.Value<string>();
-            var pin = body["pin"]?.Value<string>();
             var type = body["type"]?.Value<string>();
 
             #region Institutions

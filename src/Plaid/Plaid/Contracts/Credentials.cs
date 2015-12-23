@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -7,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace Plaid.Contracts
 {
-    [DataContract]
     public class Credentials
     {
         /// <summary>
@@ -16,7 +16,7 @@ namespace Plaid.Contracts
         /// <value>
         /// The username.
         /// </value>
-        [DataMember(Name = "username")]
+        [JsonProperty("username")]
         public string Username { get; set; }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Plaid.Contracts
         /// <value>
         /// The password.
         /// </value>
-        [DataMember(Name = "password")]
+        [JsonProperty("password")]
         public string Password { get; set; }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Plaid.Contracts
         /// <value>
         /// The pin.
         /// </value>
-        [DataMember(Name = "pin", EmitDefaultValue = false)]
+        [JsonProperty("pin", DefaultValueHandling = DefaultValueHandling.Ignore)]
         public string Pin { get; set; }
     }
 }

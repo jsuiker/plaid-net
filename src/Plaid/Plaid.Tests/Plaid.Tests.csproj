@@ -58,8 +58,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="FakeHttpMessageHandler.cs" />
-    <Compile Include="FakePlaidPublicClient.cs" />
+    <Compile Include="Fakes\FakeHttpMessageHandler.cs" />
+    <Compile Include="Fakes\FakePlaidPublicClient.cs" />
     <None Include="FakeResponses\categories\GET_200.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -81,11 +81,11 @@
     <None Include="FakeResponses\info\POST_200.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Compile Include="FakePlaidUserClient.cs" />
+    <Compile Include="Fakes\FakePlaidUserClient.cs" />
     <None Include="FakeResponses\info\POST_404_unknown.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Compile Include="FakeSettings.cs" />
+    <Compile Include="Fakes\FakeSettings.cs" />
     <Compile Include="PlaidPublicClientTests.cs" />
     <Compile Include="PlaidUserClientTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -2,7 +2,7 @@
 {
     public enum CategoryType
     {
-        NotAvailable,
+        Unresolved,
         Place,
         Special,
         Digital

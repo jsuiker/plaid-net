@@ -1,8 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Net.Http;
+﻿using System.Net.Http;
 
-namespace Plaid.Tests
+namespace Plaid.Tests.Fakes
 {
     public class FakePlaidPublicClient : PlaidPublicClient
     {

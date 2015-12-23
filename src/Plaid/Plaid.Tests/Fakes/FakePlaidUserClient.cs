@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace Plaid.Tests
+namespace Plaid.Tests.Fakes
 {
     public class FakePlaidUserClient : PlaidUserClient
     {

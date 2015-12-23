@@ -10,7 +10,7 @@ namespace Plaid.Contracts
 {
     public class Options
     {
-        [JsonProperty("webhook", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("webhook")]
         public string Webhook { get; set; }
         
         [JsonProperty("pending")]
@@ -21,5 +21,11 @@ namespace Plaid.Contracts
 
         [JsonProperty("list")]
         public bool List { get; set; }
+
+        [JsonProperty("start_date")]
+        public string StartDate { get; set; }
+
+        [JsonProperty("end_date")]
+        public string EndDate { get; set; }
     }
 }

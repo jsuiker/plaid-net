@@ -5,8 +5,11 @@ namespace Plaid.Contracts
     [DataContract]
     public enum AccountType
     {
-        NotAvailable = 0,
+        Other,
         Depository,
-        Credit
+        Credit,
+        Loan,
+        Mortgage,
+        Brokerage
     }
 }

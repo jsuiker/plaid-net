@@ -54,15 +54,6 @@ namespace Plaid
         Task<Response<UserData>> PatchStepUser(string product, string accessToken, string[] mfaResponses);
 
         /// <summary>
-        /// Patches the user options.
-        /// </summary>
-        /// <param name="product">The product.</param>
-        /// <param name="accessToken">The access token.</param>
-        /// <param name="options">The options.</param>
-        /// <returns></returns>
-        Task<Response<UserData>> PatchUserOptions(string product, string accessToken, Options options);
-
-        /// <summary>
         /// Deletes the user.
         /// </summary>
         /// <param name="product">The product.</param>

@@ -4,6 +4,7 @@ using System.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Plaid.Contracts;
 using System.Threading.Tasks;
+using Plaid.Tests.Fakes;
 
 namespace Plaid.Tests
 {

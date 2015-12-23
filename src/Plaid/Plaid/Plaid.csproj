@@ -47,9 +47,7 @@
   <ItemGroup>
     <Compile Include="Contracts\Account.cs" />
     <Compile Include="Contracts\AccountMetadata.cs" />
-    <Compile Include="Contracts\AccountSubType.cs" />
     <Compile Include="Contracts\AccountType.cs" />
-    <Compile Include="Contracts\Authorization.cs" />
     <Compile Include="Contracts\Balance.cs" />
     <Compile Include="Contracts\Category.cs" />
     <Compile Include="Contracts\CategoryType.cs" />
@@ -62,7 +60,7 @@
     <Compile Include="Contracts\UserData.cs" />
     <Compile Include="Contracts\MfaType.cs" />
     <Compile Include="Contracts\Options.cs" />
-    <Compile Include="Contracts\Question.cs" />
+    <Compile Include="Contracts\MfaEntry.cs" />
     <Compile Include="IPlaidUserClient.cs" />
     <Compile Include="IPlaidPublicClient.cs" />
     <Compile Include="PlaidClient.cs" />
