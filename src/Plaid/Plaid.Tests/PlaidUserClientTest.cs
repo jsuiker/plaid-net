@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
+#if WINDOWS_UWP
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 using Plaid.Contracts;
 using System.Threading.Tasks;
 using Plaid.Tests.Fakes;
@@ -18,22 +22,58 @@ namespace Plaid.Tests
             _userClient = new FakePlaidUserClient();
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
         public void Ctor_Throws_MissingClientId()
         {
-            var client = new PlaidUserClient(null, "test", "test");
+            try
+            {
+                var client = new PlaidUserClient(null, "test", "test");
+                Assert.Fail("Expected exception.");
+            }
+            catch (ArgumentNullException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
         public void Ctor_Throws_MissingSecret()
         {
-            var client = new PlaidUserClient("test", null, "test");
+            try
+            {
+                var client = new PlaidUserClient("test", null, "test");
+                Assert.Fail("Expected exception.");
+            }
+            catch (ArgumentNullException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
         public void Ctor_Throws_MissingEnv()
         {
-            var client = new PlaidUserClient("test", "test", null);
+            try
+            {
+                var client = new PlaidUserClient("test", "test", null);
+                Assert.Fail("Expected exception.");
+            }
+            catch (ArgumentNullException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod]
@@ -56,10 +96,22 @@ namespace Plaid.Tests
             Assert.IsNull(result.Error);
         }
 
-        [TestMethod, ExpectedException(typeof(ArgumentNullException))]
+        [TestMethod]
         public async Task AddUser_Throws_MissingCredentials()
         {
-            await _userClient.AddUser("test", "test", null, null);
+            try
+            {
+                await _userClient.AddUser("test", "test", null, null);
+                Assert.Fail("Expected exception.");
+            }
+            catch (ArgumentNullException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod]

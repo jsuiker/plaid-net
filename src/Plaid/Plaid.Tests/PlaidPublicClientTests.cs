@@ -4,7 +4,11 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+#if WINDOWS_UWP
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 using Plaid.Tests.Fakes;
 
 namespace Plaid.Tests
@@ -19,7 +23,7 @@ namespace Plaid.Tests
             _publicClient = new FakePlaidPublicClient();
         }
 
-        #region Institution Tests
+#region Institution Tests
         [TestMethod]
         public async Task GetInstitutions_Success()
         {
@@ -50,9 +54,9 @@ namespace Plaid.Tests
             Assert.IsNotNull(result.Error);
             Assert.IsTrue(result.Error.Code == 1301);
         }
-        #endregion
+#endregion
 
-        #region Category Tests
+#region Category Tests
         [TestMethod]
         public async Task GetCategories_Success()
         {
@@ -83,6 +87,6 @@ namespace Plaid.Tests
             Assert.IsNotNull(result.Error);
             Assert.IsTrue(result.Error.Code == 1501);
         }
-        #endregion
+#endregion
     }
 }
