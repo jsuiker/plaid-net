@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Plaid")]
-[assembly: AssemblyDescription(".NET bindings for the Plaid API")]
+[assembly: AssemblyDescription(".NET bindings for the Plaid API (https://plaid.com/docs/)")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Tomislav Markovski")]
 [assembly: AssemblyProduct("Plaid")]

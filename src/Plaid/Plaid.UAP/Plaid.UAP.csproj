@@ -116,20 +116,26 @@
     <Compile Include="..\Plaid\Contracts\AccountType.cs">
       <Link>Contracts\AccountType.cs</Link>
     </Compile>
+    <Compile Include="..\Plaid\Contracts\Address.cs">
+      <Link>Contracts\Address.cs</Link>
+    </Compile>
     <Compile Include="..\Plaid\Contracts\Balance.cs">
       <Link>Contracts\Balance.cs</Link>
     </Compile>
     <Compile Include="..\Plaid\Contracts\Category.cs">
       <Link>Contracts\Category.cs</Link>
     </Compile>
-    <Compile Include="..\Plaid\Contracts\CategoryType.cs">
-      <Link>Contracts\CategoryType.cs</Link>
+    <Compile Include="..\Plaid\Contracts\Contact.cs">
+      <Link>Contracts\Contact.cs</Link>
     </Compile>
     <Compile Include="..\Plaid\Contracts\Credentials.cs">
       <Link>Contracts\Credentials.cs</Link>
     </Compile>
     <Compile Include="..\Plaid\Contracts\Error.cs">
       <Link>Contracts\Error.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Contracts\Info.cs">
+      <Link>Contracts\Info.cs</Link>
     </Compile>
     <Compile Include="..\Plaid\Contracts\Institution.cs">
       <Link>Contracts\Institution.cs</Link>
@@ -169,6 +175,9 @@
     </Compile>
     <Compile Include="..\Plaid\PlaidUserClient.cs">
       <Link>PlaidUserClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Serialization\AddressJsonConverter.cs">
+      <Link>Serialization\AddressJsonConverter.cs</Link>
     </Compile>
     <Compile Include="..\Plaid\Serialization\MfaJsonConverter.cs">
       <Link>Serialization\MfaJsonConverter.cs</Link>

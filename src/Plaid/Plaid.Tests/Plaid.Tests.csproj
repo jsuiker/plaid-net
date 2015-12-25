@@ -72,6 +72,9 @@
     <None Include="FakeResponses\info\DELETE_200.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="FakeResponses\info\get\POST_200_1.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="FakeResponses\info\get\POST_200.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

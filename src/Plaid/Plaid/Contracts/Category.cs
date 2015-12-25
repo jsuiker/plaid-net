@@ -13,7 +13,7 @@ namespace Plaid.Contracts
         public string Id { get; set; }
 
         [JsonProperty("type")]
-        public CategoryType Type { get; set; }
+        public string Type { get; set; }
 
         [JsonProperty("hierarchy")]
         public string[] Hierarchy { get; set; }

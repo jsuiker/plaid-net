@@ -135,6 +135,9 @@
     <Content Include="..\Plaid.Tests\FakeResponses\institutions\GET_5301a93ac140de84910000e0_200.json">
       <Link>FakeResponses\institutions\GET_5301a93ac140de84910000e0_200.json</Link>
     </Content>
+    <Content Include="..\Plaid.Tests\FakeResponses\info\get\POST_200_1.json">
+      <Link>FakeResponses\info\get\POST_200_1.json</Link>
+    </Content>
     <None Include="project.json" />
     <SDKReference Include="MSTestFramework.Universal, Version=$(UnitTestPlatformVersion)" />
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />

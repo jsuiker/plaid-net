@@ -73,6 +73,8 @@ namespace Plaid.Tests.Fakes
                                 {
                                     case "test":
                                         return GetResponse("info/get/POST_200.json", HttpStatusCode.OK);
+                                    case "test_1":
+                                        return GetResponse("info/get/POST_200_1.json", HttpStatusCode.OK);
                                 }
                                 return GetResponse("info/get/POST_401.json", HttpStatusCode.Unauthorized);
                         }

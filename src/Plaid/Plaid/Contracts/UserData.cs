@@ -25,6 +25,9 @@ namespace Plaid.Contracts
         public List<Account> Accounts { get; set; }    
         
         [JsonProperty("transactions")]
-        public List<Transaction> Transactions { get; set; }   
+        public List<Transaction> Transactions { get; set; }
+
+        [DataMember(Name = "info")]
+        public Info Info { get; set; }
     }
 }

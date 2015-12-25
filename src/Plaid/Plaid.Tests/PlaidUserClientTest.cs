@@ -183,6 +183,19 @@ namespace Plaid.Tests
             Assert.IsNotNull(result.Data);
             Assert.IsTrue(result.Data.Accounts.Count > 0);
             Assert.IsNull(result.Error);
+            Assert.IsNotNull(result.Data.Info.Addresses[0].Data);
+        }
+
+        [TestMethod]
+        public async Task GetUser_Restursn_OK_AlternateAddressFormat()
+        {
+            var result = await _userClient.GetUser("info", "test_1", null);
+
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.OK);
+            Assert.IsNotNull(result.Data);
+            Assert.IsTrue(result.Data.Accounts.Count > 0);
+            Assert.IsNull(result.Error);
+            Assert.IsNotNull(result.Data.Info.Addresses[0].Data);
         }
 
         [TestMethod]

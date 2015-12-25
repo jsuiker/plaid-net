@@ -27,5 +27,8 @@ namespace Plaid.Contracts
 
         [JsonProperty("end_date")]
         public string EndDate { get; set; }
+
+        [JsonProperty("send_method")]
+        public string SendMethod { get; set; }
     }
 }
