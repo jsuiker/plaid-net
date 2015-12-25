@@ -113,6 +113,9 @@
     <None Include="FakeResponses\institutions\GET_200.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="FakeResponses\upgrade\POST_404_1601.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

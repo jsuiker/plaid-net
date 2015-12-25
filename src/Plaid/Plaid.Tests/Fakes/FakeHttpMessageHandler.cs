@@ -17,7 +17,7 @@ namespace Plaid.Tests.Fakes
             var body = request.Content == null ? new JObject() : JsonConvert.DeserializeObject<JToken>(await request.Content.ReadAsStringAsync());
             var url = request.RequestUri.AbsolutePath;
             var method = request.Method.Method;
-            
+
             var accessToken = body["access_token"]?.Value<string>();
             var type = body["type"]?.Value<string>();
 
@@ -81,6 +81,15 @@ namespace Plaid.Tests.Fakes
                         break;
                     case "DELETE":
                         return GetResponse("info/DELETE_200.json", HttpStatusCode.OK);
+                }
+
+            if (url.StartsWith("/upgrade"))
+                switch (accessToken)
+                {
+                    case "test_chase":
+                        return GetResponse("info/POST_200.json", HttpStatusCode.OK);
+                    default:
+                        return GetResponse("upgrade/POST_404_1601.json", HttpStatusCode.NotFound);
                 }
             throw new Exception("Unsupported scenario.");
         }

@@ -29,6 +29,15 @@ namespace Plaid.Contracts
         public string EndDate { get; set; }
 
         [JsonProperty("send_method")]
-        public string SendMethod { get; set; }
+        public SendMethod SendMethod { get; set; }
+    }
+
+    public class SendMethod
+    {
+        [JsonProperty("type")]
+        public string Type { get; set; }
+
+        [JsonProperty("mask")]
+        public string Mask { get; set; }
     }
 }

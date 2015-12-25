@@ -218,5 +218,26 @@ namespace Plaid.Tests
             Assert.IsNull(result.Error);
             Assert.IsNotNull(result.Message);
         }
+
+        [TestMethod]
+        public async Task UpgradeUser_Returns_OK()
+        {
+            var result = await _userClient.UpgradeUser("test_chase", "test", null);
+
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.OK);
+            Assert.IsNull(result.Error);
+            Assert.IsNotNull(result.Data);
+        }
+
+        [TestMethod]
+        public async Task DeleteUser_ProductUnavailable()
+        {
+            var result = await _userClient.UpgradeUser("test_td", "connect", null);
+
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.NotFound);
+            Assert.IsNotNull(result.Error);
+            Assert.IsTrue(result.Error.Code == 1601);
+            Assert.IsNull(result.Data);
+        }
     }
 }

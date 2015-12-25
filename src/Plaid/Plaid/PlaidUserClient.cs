@@ -185,7 +185,7 @@ namespace Plaid
 
             var response = await HttpClient.SendAsync(AuthenticatedRequest("POST", "upgrade", body));
 
-            return await Parse<Response>(response);
+            return await Parse<UserData>(response);
         }
 
         #region Private
