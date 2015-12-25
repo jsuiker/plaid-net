@@ -146,9 +146,6 @@
     <Compile Include="..\Plaid\Contracts\MfaEntry.cs">
       <Link>Contracts\MfaEntry.cs</Link>
     </Compile>
-    <Compile Include="..\Plaid\Contracts\MfaType.cs">
-      <Link>Contracts\MfaType.cs</Link>
-    </Compile>
     <Compile Include="..\Plaid\Contracts\Options.cs">
       <Link>Contracts\Options.cs</Link>
     </Compile>

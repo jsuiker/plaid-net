@@ -10,21 +10,23 @@ using Plaid.Serialization;
 
 namespace Plaid.Contracts
 {
+    [DataContract]
     public class UserData
     {
-        [JsonProperty("access_token")]
+        [DataMember(Name = "access_token")]
         public string AccessToken { get; set; }
 
-        [JsonProperty("type")]
-        public MfaType MfaType { get; set; }
+        [DataMember( Name = "type")]
+        public string MfaType { get; set; }
 
+        [DataMember(Name = "mfa")]
         [JsonProperty("mfa"), JsonConverter(typeof(MfaJsonConverter))]
         public Mfa Mfa { get; set; }
 
-        [JsonProperty("accounts")]
+        [DataMember(Name = "accounts")]
         public List<Account> Accounts { get; set; }    
         
-        [JsonProperty("transactions")]
+        [DataMember(Name = "transactions")]
         public List<Transaction> Transactions { get; set; }
 
         [DataMember(Name = "info")]

@@ -122,7 +122,7 @@ namespace Plaid.Tests
             Assert.AreEqual(result.StatusCode, HttpStatusCode.Created);
             Assert.IsNotNull(result.Data);
             Assert.IsNotNull(result.Data.Mfa);
-            Assert.IsTrue(result.Data.MfaType == MfaType.Questions);
+            Assert.IsTrue(result.Data.MfaType == "questions");
             Assert.IsNull(result.Error);
         }
 
@@ -134,7 +134,7 @@ namespace Plaid.Tests
             Assert.AreEqual(result.StatusCode, HttpStatusCode.Created);
             Assert.IsNotNull(result.Data);
             Assert.IsNotNull(result.Data.Mfa);
-            Assert.IsTrue(result.Data.MfaType == MfaType.Selections);
+            Assert.IsTrue(result.Data.MfaType == "selections");
             Assert.IsNull(result.Error);
         }
 
@@ -147,7 +147,7 @@ namespace Plaid.Tests
             Assert.IsNotNull(result.Data);
             Assert.IsNotNull(result.Data.Mfa);
             Assert.IsTrue(result.Data.Mfa.Count > 1);
-            Assert.IsTrue(result.Data.MfaType == MfaType.List);
+            Assert.IsTrue(result.Data.MfaType == "list");
             Assert.IsNull(result.Error);
         }
 
@@ -159,7 +159,7 @@ namespace Plaid.Tests
             Assert.AreEqual(result.StatusCode, HttpStatusCode.Created);
             Assert.IsNotNull(result.Data);
             Assert.IsNotNull(result.Data.Mfa);
-            Assert.IsTrue(result.Data.MfaType == MfaType.Device);
+            Assert.IsTrue(result.Data.MfaType == "device");
             Assert.IsNull(result.Error);
         }
 
