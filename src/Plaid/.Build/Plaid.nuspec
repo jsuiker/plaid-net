@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Plaid</id>
+    <version>1.0.2.0</version>
+    <title>Plaid</title>
+    <authors>Tomislav Markovski</authors>
+    <owners>Tomislav Markovski</owners>
+    <licenseUrl>https://github.com/tmarkovski/plaid-net/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/tmarkovski/plaid-net</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>.NET bindings for the Plaid API (https://plaid.com/docs/)</description>
+    <releaseNotes>Added documentation and new target assemblies for 'dnxcore50'</releaseNotes>
+    <copyright>Copyright 2015</copyright>  
+	<dependencies>
+	  <dependency id="Newtonsoft.Json" version="7.0.1" />
+    </dependencies>
+	<tags>plaid</tags>
+  </metadata>
+  <files>
+    <file src="..\Plaid\bin\Release\Plaid.dll" target="lib\net452" />
+    <file src="..\Plaid\bin\Release\Plaid.XML" target="lib\net452" />
+	<file src="..\Plaid.UAP\bin\Release\Plaid.dll" target="lib\netcore50" />
+    <file src="..\Plaid.UAP\bin\Release\Plaid.XML" target="lib\netcore50" />
+  </files>
+
+</package>
