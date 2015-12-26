@@ -239,5 +239,15 @@ namespace Plaid.Tests
             Assert.IsTrue(result.Error.Code == 1601);
             Assert.IsNull(result.Data);
         }
+
+        [TestMethod]
+        public async Task GetBalance_Returns_OK()
+        {
+            var result = await _userClient.GetBalance("test");
+
+            Assert.IsTrue(result.StatusCode == HttpStatusCode.OK);
+            Assert.IsNull(result.Error);
+            Assert.IsNotNull(result.Data);
+        }
     }
 }

@@ -10,6 +10,9 @@ using Plaid.Contracts;
 
 namespace Plaid
 {
+    /// <summary>
+    /// Represents a client for the authenticated Plaid endpoints
+    /// </summary>
     public class PlaidUserClient : PlaidClient, IPlaidUserClient
     {
         private readonly string _clientId;
@@ -39,9 +42,8 @@ namespace Plaid
             _secret = secret;
         }
 
-
         /// <summary>
-        /// Adds the user.
+        /// Adds a user to the specified product.
         /// </summary>
         /// <param name="product">The product.</param>
         /// <param name="type">The type.</param>
@@ -65,7 +67,7 @@ namespace Plaid
         }
 
         /// <summary>
-        /// Gets the user.
+        /// Gets the account and transaction data for the given token.
         /// </summary>
         /// <param name="product">The product.</param>
         /// <param name="accessToken">The access token.</param>
@@ -83,7 +85,7 @@ namespace Plaid
         }
 
         /// <summary>
-        /// Steps the user.
+        /// Performs a step in multi-factor authentication.
         /// </summary>
         /// <param name="product">The product.</param>
         /// <param name="accessToken">The access token.</param>
@@ -103,7 +105,7 @@ namespace Plaid
         }
 
         /// <summary>
-        /// Patches the user.
+        /// Updates user credentials for the given token.
         /// </summary>
         /// <param name="product">The product.</param>
         /// <param name="accessToken">The access token.</param>
@@ -121,7 +123,7 @@ namespace Plaid
         }
 
         /// <summary>
-        /// Patches the step user.
+        /// Performs a step in multi-factor authentication during the update user operation.
         /// </summary>
         /// <param name="product">The product.</param>
         /// <param name="accessToken">The access token.</param>
@@ -138,12 +140,6 @@ namespace Plaid
             return await Parse<UserData>(response);
         }
 
-        /// <summary>
-        /// Deletes the user.
-        /// </summary>
-        /// <param name="product">The product.</param>
-        /// <param name="accessToken">The access token.</param>
-        /// <returns></returns>
         public async Task<Response> DeleteUser(string product, string accessToken)
         {
             dynamic body = new ExpandoObject();
@@ -155,7 +151,7 @@ namespace Plaid
         }
 
         /// <summary>
-        /// Gets the balance.
+        /// Gets the user transactions.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
         /// <returns></returns>
@@ -166,11 +162,11 @@ namespace Plaid
 
             var response = await HttpClient.SendAsync(AuthenticatedRequest("POST", "balance", body));
 
-            return await Parse<Response>(response);
+            return await Parse<UserData>(response);
         }
 
         /// <summary>
-        /// Upgrades the user.
+        /// Upgrades a user to the specified product.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
         /// <param name="upgradeTo">The upgrade to.</param>
@@ -186,6 +182,24 @@ namespace Plaid
             var response = await HttpClient.SendAsync(AuthenticatedRequest("POST", "upgrade", body));
 
             return await Parse<UserData>(response);
+        }
+
+        /// <summary>
+        /// Exchanges a public token for the given account id.
+        /// </summary>
+        /// <param name="publicToken">The public token.</param>
+        /// <param name="accountId">The account identifier.</param>
+        /// <returns></returns>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public async Task<Response<string>> ExchangeToken(string publicToken, string accountId)
+        {
+            dynamic body = new ExpandoObject();
+            body.public_token = publicToken;
+            body.account_id = accountId;
+
+            var response = await HttpClient.SendAsync(AuthenticatedRequest("POST", "exchange_token", body));
+
+            return await Parse<string>(response);
         }
 
         #region Private

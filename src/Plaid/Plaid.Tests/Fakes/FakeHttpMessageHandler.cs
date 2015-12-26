@@ -91,6 +91,10 @@ namespace Plaid.Tests.Fakes
                     default:
                         return GetResponse("upgrade/POST_404_1601.json", HttpStatusCode.NotFound);
                 }
+
+            if (url.StartsWith("/balance"))
+                return GetResponse("info/POST_200.json", HttpStatusCode.OK);
+
             throw new Exception("Unsupported scenario.");
         }
 
