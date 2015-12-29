@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace Plaid.Contracts
 {
+    /// <summary>
+    /// Represents the user credentials
+    /// </summary>
+    [DataContract]
     public class Credentials
     {
         /// <summary>
@@ -16,7 +20,7 @@ namespace Plaid.Contracts
         /// <value>
         /// The username.
         /// </value>
-        [JsonProperty("username")]
+        [JsonProperty("username"), DataMember(Name = "username")]
         public string Username { get; set; }
 
         /// <summary>
@@ -25,7 +29,7 @@ namespace Plaid.Contracts
         /// <value>
         /// The password.
         /// </value>
-        [JsonProperty("password")]
+        [JsonProperty("password"), DataMember(Name = "password")]
         public string Password { get; set; }
 
         /// <summary>
@@ -34,7 +38,7 @@ namespace Plaid.Contracts
         /// <value>
         /// The pin.
         /// </value>
-        [JsonProperty("pin", DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonProperty("pin", DefaultValueHandling = DefaultValueHandling.Ignore), DataMember(Name = "pin")]
         public string Pin { get; set; }
     }
 }

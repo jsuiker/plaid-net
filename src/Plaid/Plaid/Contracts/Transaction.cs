@@ -1,29 +1,31 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Runtime.Serialization;
 
 namespace Plaid.Contracts
 {
+    [DataContract]
     public class Transaction
     {
-        [JsonProperty("_account")]
+        [DataMember(Name = "_account")]
         public string AccountId { get; set; }
 
-        [JsonProperty("_id")]
+        [DataMember(Name = "_id")]
         public string Id { get; set; }
 
-        [JsonProperty("amount")]
+        [DataMember(Name = "amount")]
         public decimal Amount { get; set; }
 
-        [JsonProperty("date")]
+        [DataMember(Name = "date")]
         public DateTime Date { get; set; }
 
-        [JsonProperty("name")]
+        [DataMember(Name = "name")]
         public string Name { get; set; }
 
-        [JsonProperty("pending")]
+        [DataMember(Name = "pending")]
         public bool Pending { get; set; }
 
-        [JsonProperty("category_id")]
+        [DataMember(Name = "category_id")]
         public string CategoryId { get; set; }
     }
 }

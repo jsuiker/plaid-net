@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Linq;
 using System.Net;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 #if WINDOWS_UWP
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 #else
@@ -8,6 +12,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 #endif
 using Plaid.Contracts;
 using System.Threading.Tasks;
+using Plaid.Exceptions;
 using Plaid.Tests.Fakes;
 
 namespace Plaid.Tests
@@ -16,7 +21,7 @@ namespace Plaid.Tests
     public class PlaidUserClientTest
     {
         private readonly IPlaidUserClient _userClient;
-        
+
         public PlaidUserClientTest()
         {
             _userClient = new FakePlaidUserClient();
@@ -81,9 +86,8 @@ namespace Plaid.Tests
         {
             var result = await _userClient.AddUser("info", "citi", new Credentials { Username = "plaid_test", Password = "plaid_good" }, null);
 
-            Assert.AreEqual(result.StatusCode, HttpStatusCode.OK);
-            Assert.IsNotNull(result.Data);
-            Assert.IsNull(result.Error);
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.Mfa);
         }
 
         [TestMethod]
@@ -91,9 +95,8 @@ namespace Plaid.Tests
         {
             var result = await _userClient.AddUser("info", "citi", new Credentials { Username = "plaid_test", Password = "plaid_good" }, new Options());
 
-            Assert.AreEqual(result.StatusCode, HttpStatusCode.OK);
-            Assert.IsNotNull(result.Data);
-            Assert.IsNull(result.Error);
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.Mfa);
         }
 
         [TestMethod]
@@ -119,11 +122,10 @@ namespace Plaid.Tests
         {
             var result = await _userClient.AddUser("info", "questions", new Credentials { Username = "plaid_test", Password = "plaid_good" }, null);
 
-            Assert.AreEqual(result.StatusCode, HttpStatusCode.Created);
-            Assert.IsNotNull(result.Data);
-            Assert.IsNotNull(result.Data.Mfa);
-            Assert.IsTrue(result.Data.MfaType == "questions");
-            Assert.IsNull(result.Error);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Mfa);
+            Assert.IsTrue(result.Mfa.Items.Count > 0);
+            Assert.IsTrue(result.Mfa.Type == "questions");
         }
 
         [TestMethod]
@@ -131,11 +133,10 @@ namespace Plaid.Tests
         {
             var result = await _userClient.AddUser("info", "selections", new Credentials { Username = "plaid_test", Password = "plaid_good" }, null);
 
-            Assert.AreEqual(result.StatusCode, HttpStatusCode.Created);
-            Assert.IsNotNull(result.Data);
-            Assert.IsNotNull(result.Data.Mfa);
-            Assert.IsTrue(result.Data.MfaType == "selections");
-            Assert.IsNull(result.Error);
+            Assert.IsNotNull(result.Mfa);
+            Assert.IsTrue(result.Mfa.Items.Count > 0);
+            Assert.IsTrue(result.Mfa.Items.First().Answers.Count > 0);
+            Assert.IsTrue(result.Mfa.Type == "selections");
         }
 
         [TestMethod]
@@ -143,12 +144,10 @@ namespace Plaid.Tests
         {
             var result = await _userClient.AddUser("info", "list", new Credentials { Username = "plaid_test", Password = "plaid_good" }, new Options { List = true });
 
-            Assert.AreEqual(result.StatusCode, HttpStatusCode.Created);
-            Assert.IsNotNull(result.Data);
-            Assert.IsNotNull(result.Data.Mfa);
-            Assert.IsTrue(result.Data.Mfa.Count > 1);
-            Assert.IsTrue(result.Data.MfaType == "list");
-            Assert.IsNull(result.Error);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Mfa);
+            Assert.IsTrue(result.Mfa.Items.Count > 1);
+            Assert.IsTrue(result.Mfa.Type == "list");
         }
 
         [TestMethod]
@@ -156,98 +155,114 @@ namespace Plaid.Tests
         {
             var result = await _userClient.AddUser("info", "device", new Credentials { Username = "plaid_test", Password = "plaid_good" }, null);
 
-            Assert.AreEqual(result.StatusCode, HttpStatusCode.Created);
-            Assert.IsNotNull(result.Data);
-            Assert.IsNotNull(result.Data.Mfa);
-            Assert.IsTrue(result.Data.MfaType == "device");
-            Assert.IsNull(result.Error);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Mfa);
+            Assert.IsTrue(result.Mfa.Type == "device");
+
         }
 
         [TestMethod]
         public async Task AddUser_Returns_UnknownInstitution()
         {
-            var result = await _userClient.AddUser("info", "unknown", new Credentials { Username = "plaid_test", Password = "plaid_good" }, null);
-
-            Assert.AreEqual(result.StatusCode, HttpStatusCode.NotFound);
-            Assert.IsNull(result.Data);
-            Assert.IsNotNull(result.Error);
-            Assert.IsTrue(result.Error.Code == 1300);
+            try
+            {
+                await _userClient.AddUser("info", "unknown", new Credentials { Username = "plaid_test", Password = "plaid_good" }, null);
+                Assert.Fail();
+            }
+            catch (PlaidException e)
+            {
+                Assert.IsNotNull(e.Error);
+                Assert.IsTrue(e.Error.Code == 1300);
+                Assert.IsTrue(e.Error.StatusCode == HttpStatusCode.NotFound);
+            }
         }
 
         [TestMethod]
         public async Task GetUser_Returns_OK()
         {
             var result = await _userClient.GetUser("info", "test", null);
-
-            Assert.IsTrue(result.StatusCode == HttpStatusCode.OK);
-            Assert.IsNotNull(result.Data);
-            Assert.IsTrue(result.Data.Accounts.Count > 0);
-            Assert.IsNull(result.Error);
-            Assert.IsNotNull(result.Data.Info.Addresses[0].Data);
+            
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Accounts.Count > 0);
+            Assert.IsNotNull(result.Info.Addresses[0]);
         }
 
         [TestMethod]
         public async Task GetUser_Restursn_OK_AlternateAddressFormat()
         {
             var result = await _userClient.GetUser("info", "test_1", null);
-
-            Assert.IsTrue(result.StatusCode == HttpStatusCode.OK);
-            Assert.IsNotNull(result.Data);
-            Assert.IsTrue(result.Data.Accounts.Count > 0);
-            Assert.IsNull(result.Error);
-            Assert.IsNotNull(result.Data.Info.Addresses[0].Data);
+            
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Accounts.Count > 0);
+            Assert.IsNotNull(result.Info.Addresses[0]);
         }
 
         [TestMethod]
         public async Task GetUser_Returns_Unauthorized()
         {
-            var result = await _userClient.GetUser("info", "unknown", null);
-
-            Assert.IsTrue(result.StatusCode == HttpStatusCode.Unauthorized);
-            Assert.IsNull(result.Data);
-            Assert.IsNotNull(result.Error);
-            Assert.IsTrue(result.Error.Code == 1105);
+            try
+            {
+                await _userClient.GetUser("info", "unknown", null);
+                Assert.Fail();
+            }
+            catch (PlaidException e)
+            {
+                Assert.IsNotNull(e.Error);
+                Assert.IsTrue(e.Error.StatusCode == HttpStatusCode.Unauthorized);
+                Assert.IsTrue(e.Error.Code == 1105);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod]
         public async Task DeleteUser_Returns_OK()
         {
-            var result = await _userClient.DeleteUser("info", "test");
-
-            Assert.IsTrue(result.StatusCode == HttpStatusCode.OK);
-            Assert.IsNull(result.Error);
-            Assert.IsNotNull(result.Message);
+            try
+            {
+                await _userClient.DeleteUser("info", "test");
+                Assert.IsTrue(true);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod]
         public async Task UpgradeUser_Returns_OK()
         {
             var result = await _userClient.UpgradeUser("test_chase", "test", null);
-
-            Assert.IsTrue(result.StatusCode == HttpStatusCode.OK);
-            Assert.IsNull(result.Error);
-            Assert.IsNotNull(result.Data);
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]
-        public async Task DeleteUser_ProductUnavailable()
+        public async Task UpgradeUser_ProductUnavailable()
         {
-            var result = await _userClient.UpgradeUser("test_td", "connect", null);
-
-            Assert.IsTrue(result.StatusCode == HttpStatusCode.NotFound);
-            Assert.IsNotNull(result.Error);
-            Assert.IsTrue(result.Error.Code == 1601);
-            Assert.IsNull(result.Data);
+            try
+            {
+                await _userClient.UpgradeUser("test_td", "connect", null);
+                Assert.Fail();
+            }
+            catch (PlaidException e)
+            {
+                Assert.IsNotNull(e.Error);
+                Assert.IsTrue(e.Error.StatusCode == HttpStatusCode.NotFound);
+                Assert.IsTrue(e.Error.Code == 1601);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
         }
 
         [TestMethod]
         public async Task GetBalance_Returns_OK()
         {
             var result = await _userClient.GetBalance("test");
-
-            Assert.IsTrue(result.StatusCode == HttpStatusCode.OK);
-            Assert.IsNull(result.Error);
-            Assert.IsNotNull(result.Data);
+            Assert.IsNotNull(result);
         }
     }
 }

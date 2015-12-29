@@ -4,24 +4,25 @@ using System.Runtime.Serialization;
 
 namespace Plaid.Contracts
 {
+    [DataContract]
     public class Account
     {
-        [JsonProperty("_id")]
+        [DataMember(Name = "_id")]
         public string Id { get; set; }
 
-        [JsonProperty("_item")]
+        [DataMember(Name = "_item")]
         public string Item { get; set; }
 
-        [JsonProperty("balance")]
+        [DataMember(Name = "balance")]
         public Balance Balance { get; set; }
 
-        [JsonProperty("meta")]
+        [DataMember(Name = "meta")]
         public AccountMetadata Metadata { get; set; }
 
-        [JsonProperty("type")]
-        public AccountType Type { get; set; }
+        [DataMember(Name = "type")]
+        public string Type { get; set; }
 
-        [JsonProperty("subtype")]
+        [DataMember(Name = "subtype")]
         public string SubType { get; set; }
     }
 }

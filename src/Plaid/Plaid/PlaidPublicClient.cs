@@ -23,7 +23,7 @@ namespace Plaid
         /// Gets the institutions.
         /// </summary>
         /// <returns></returns>
-        public async Task<Response<Institution[]>> GetInstitutions()
+        public async Task<Institution[]> GetInstitutions()
         {
             var response = await HttpClient.SendAsync(PublicRequest("GET", "institutions"));
 
@@ -35,7 +35,7 @@ namespace Plaid
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public async Task<Response<Institution>> GetInstitution(string id)
+        public async Task<Institution> GetInstitution(string id)
         {
             var response = await HttpClient.SendAsync(PublicRequest("GET", $"institutions/{id}"));
 
@@ -46,7 +46,7 @@ namespace Plaid
         /// Gets the categories.
         /// </summary>
         /// <returns></returns>
-        public async Task<Response<Category[]>> GetCategories()
+        public async Task<Category[]> GetCategories()
         {
             var response = await HttpClient.SendAsync(PublicRequest("GET", "categories"));
 
@@ -58,7 +58,7 @@ namespace Plaid
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public async Task<Response<Category>> GetCategory(string id)
+        public async Task<Category> GetCategory(string id)
         {
             var response = await HttpClient.SendAsync(PublicRequest("GET", $"categories/{id}"));
 

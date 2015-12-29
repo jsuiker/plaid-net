@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="Contracts\Account.cs" />
     <Compile Include="Contracts\AccountMetadata.cs" />
-    <Compile Include="Contracts\AccountType.cs" />
     <Compile Include="Contracts\Address.cs" />
     <Compile Include="Contracts\Balance.cs" />
     <Compile Include="Contracts\Category.cs" />
@@ -58,12 +57,11 @@
     <Compile Include="Contracts\Error.cs" />
     <Compile Include="Contracts\Info.cs" />
     <Compile Include="Contracts\Institution.cs" />
-    <Compile Include="Contracts\Response.cs" />
     <Compile Include="Contracts\Mfa.cs" />
     <Compile Include="Contracts\Transaction.cs" />
     <Compile Include="Contracts\UserData.cs" />
     <Compile Include="Contracts\Options.cs" />
-    <Compile Include="Contracts\MfaEntry.cs" />
+    <Compile Include="Contracts\MfaItem.cs" />
     <Compile Include="IPlaidUserClient.cs" />
     <Compile Include="IPlaidPublicClient.cs" />
     <Compile Include="PlaidClient.cs" />

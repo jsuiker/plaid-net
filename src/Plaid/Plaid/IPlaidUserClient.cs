@@ -17,7 +17,7 @@ namespace Plaid
         /// <param name="credentials">The credentials.</param>
         /// <param name="options">The options.</param>
         /// <returns></returns>
-        Task<Response<UserData>> AddUser(string product, string type, Credentials credentials, Options options);
+        Task<User> AddUser(string product, string type, Credentials credentials, Options options);
 
         /// <summary>
         /// Gets the account and transaction data for the given token.
@@ -26,7 +26,7 @@ namespace Plaid
         /// <param name="accessToken">The access token.</param>
         /// <param name="options">The options.</param>
         /// <returns></returns>
-        Task<Response<UserData>> GetUser(string product, string accessToken, Options options);
+        Task<User> GetUser(string product, string accessToken, Options options);
 
         /// <summary>
         /// Performs a step in multi-factor authentication.
@@ -36,7 +36,7 @@ namespace Plaid
         /// <param name="mfaResponses">The mfa responses.</param>
         /// <param name="options">The options.</param>
         /// <returns></returns>
-        Task<Response<UserData>> StepUser(string product, string accessToken, string[] mfaResponses, Options options);
+        Task<User> StepUser(string product, string accessToken, string[] mfaResponses, Options options);
 
         /// <summary>
         /// Updates user credentials for the given token.
@@ -45,7 +45,7 @@ namespace Plaid
         /// <param name="accessToken">The access token.</param>
         /// <param name="credentials">The credentials.</param>
         /// <returns></returns>
-        Task<Response<UserData>> PatchUser(string product, string accessToken, Credentials credentials);
+        Task<User> PatchUser(string product, string accessToken, Credentials credentials);
 
         /// <summary>
         /// Performs a step in multi-factor authentication during the update user operation.
@@ -54,7 +54,7 @@ namespace Plaid
         /// <param name="accessToken">The access token.</param>
         /// <param name="mfaResponses">The mfa responses.</param>
         /// <returns></returns>
-        Task<Response<UserData>> PatchStepUser(string product, string accessToken, string[] mfaResponses);
+        Task<User> PatchStepUser(string product, string accessToken, string[] mfaResponses);
 
         /// <summary>
         /// Deletes a user from the specified product.
@@ -62,14 +62,14 @@ namespace Plaid
         /// <param name="product">The product.</param>
         /// <param name="accessToken">The access token.</param>
         /// <returns></returns>
-        Task<Response> DeleteUser(string product, string accessToken);
+        Task DeleteUser(string product, string accessToken);
 
         /// <summary>
         /// Gets the user transactions.
         /// </summary>
         /// <param name="accessToken">The access token.</param>
         /// <returns></returns>
-        Task<Response<UserData>> GetBalance(string accessToken);
+        Task<User> GetBalance(string accessToken);
 
         /// <summary>
         /// Upgrades a user to the specified product.
@@ -78,7 +78,7 @@ namespace Plaid
         /// <param name="upgradeTo">The upgrade to.</param>
         /// <param name="options">The options.</param>
         /// <returns></returns>
-        Task<Response<UserData>> UpgradeUser(string accessToken, string upgradeTo, Options options);
+        Task<User> UpgradeUser(string accessToken, string upgradeTo, Options options);
 
         /// <summary>
         /// Exchanges a public token for the given account id.
@@ -86,6 +86,6 @@ namespace Plaid
         /// <param name="publicToken">The public token.</param>
         /// <param name="accountId">The account identifier.</param>
         /// <returns></returns>
-        Task<Response<string>> ExchangeToken(string publicToken, string accountId);
+        Task<string> ExchangeToken(string publicToken, string accountId);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Plaid.Contracts
 {
+    [DataContract]
     public class Balance
     {
         [DataMember(Name = "available")]

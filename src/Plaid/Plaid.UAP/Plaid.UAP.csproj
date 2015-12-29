@@ -115,9 +115,6 @@
     <Compile Include="..\Plaid\Contracts\AccountMetadata.cs">
       <Link>Contracts\AccountMetadata.cs</Link>
     </Compile>
-    <Compile Include="..\Plaid\Contracts\AccountType.cs">
-      <Link>Contracts\AccountType.cs</Link>
-    </Compile>
     <Compile Include="..\Plaid\Contracts\Address.cs">
       <Link>Contracts\Address.cs</Link>
     </Compile>
@@ -145,20 +142,20 @@
     <Compile Include="..\Plaid\Contracts\Mfa.cs">
       <Link>Contracts\Mfa.cs</Link>
     </Compile>
-    <Compile Include="..\Plaid\Contracts\MfaEntry.cs">
-      <Link>Contracts\MfaEntry.cs</Link>
+    <Compile Include="..\Plaid\Contracts\MfaItem.cs">
+      <Link>Contracts\MfaItem.cs</Link>
     </Compile>
     <Compile Include="..\Plaid\Contracts\Options.cs">
       <Link>Contracts\Options.cs</Link>
-    </Compile>
-    <Compile Include="..\Plaid\Contracts\Response.cs">
-      <Link>Contracts\Response.cs</Link>
     </Compile>
     <Compile Include="..\Plaid\Contracts\Transaction.cs">
       <Link>Contracts\Transaction.cs</Link>
     </Compile>
     <Compile Include="..\Plaid\Contracts\UserData.cs">
       <Link>Contracts\UserData.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Exceptions\PlaidException.cs">
+      <Link>Exceptions\PlaidException.cs</Link>
     </Compile>
     <Compile Include="..\Plaid\IPlaidPublicClient.cs">
       <Link>IPlaidPublicClient.cs</Link>

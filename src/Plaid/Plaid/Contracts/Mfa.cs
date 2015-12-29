@@ -8,8 +8,19 @@ using System.Threading.Tasks;
 
 namespace Plaid.Contracts
 {
-    public class Mfa : List<MfaEntry>
+    [DataContract]
+    public class Mfa
     {
+        [DataMember(Name = "message")]
         public string Message { get; set; }
+
+        [DataMember(Name = "access_token")]
+        public string AccessToken { get; set; }
+
+        [DataMember(Name = "items")]
+        public List<MfaItem> Items { get; set; }
+
+        [DataMember(Name = "type")]
+        public string Type { get; set; }
     }
 }

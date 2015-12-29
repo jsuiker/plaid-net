@@ -33,16 +33,19 @@ namespace Plaid.Serialization
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             var result = new Mfa();
-
+            
             var jToken = JToken.Load(reader);
-            switch (jToken.Type)
+            result.AccessToken = jToken["access_token"].Value<string>();
+            result.Type = jToken["type"].Value<string>();
+            
+            switch (jToken["mfa"].Type)
             {
                 case JTokenType.Array:
-                    result.AddRange(jToken.ToObject<List<MfaEntry>>());
+                    result.Items = jToken["mfa"].ToObject<List<MfaItem>>();
                     break;
                 case JTokenType.Object:
-                    if (jToken["message"] != null)
-                        result.Message = jToken["message"].Value<string>();
+                    if (jToken["mfa"]["message"] != null)
+                        result.Message = jToken["mfa"]["message"].Value<string>();
                     break;
             }
 

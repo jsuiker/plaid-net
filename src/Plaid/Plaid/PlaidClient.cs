@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Plaid.Contracts;
+using Plaid.Exceptions;
 
 namespace Plaid
 {
@@ -19,6 +21,11 @@ namespace Plaid
         protected readonly string Environment;
         protected readonly HttpClient HttpClient;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlaidClient"/> class.
+        /// </summary>
+        /// <param name="environment">The environment.</param>
+        /// <exception cref="System.ArgumentNullException">Missing Plaid Environment URL</exception>
         [SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         protected PlaidClient(string environment)
         {
@@ -44,33 +51,15 @@ namespace Plaid
         /// <typeparam name="T"></typeparam>
         /// <param name="response">The response.</param>
         /// <returns></returns>
-        protected static async Task<Response<T>> Parse<T>(HttpResponseMessage response)
+        protected static async Task<T> Parse<T>(HttpResponseMessage response)
         {
-            var resp = new Response<T> { StatusCode = response.StatusCode };
-
             if (response.IsSuccessStatusCode)
-                resp.Data = JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
-            else
-                resp.Error = JsonConvert.DeserializeObject<Error>(await response.Content.ReadAsStringAsync());
+                return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());
 
-            return resp;
-        }
+            var error = JsonConvert.DeserializeObject<Error>(await response.Content.ReadAsStringAsync());
+            error.StatusCode = response.StatusCode;
 
-        /// <summary>
-        /// Parses the specified response.
-        /// </summary>
-        /// <param name="response">The response.</param>
-        /// <returns></returns>
-        protected static async Task<Response> Parse(HttpResponseMessage response)
-        {
-            var resp = new Response { StatusCode = response.StatusCode };
-
-            if (response.IsSuccessStatusCode)
-                resp.Message = JsonConvert.DeserializeObject<Response>(await response.Content.ReadAsStringAsync())?.Message;
-            else
-                resp.Error = JsonConvert.DeserializeObject<Error>(await response.Content.ReadAsStringAsync());
-
-            return resp;
+            throw new PlaidException(error);
         }
     }
 }

@@ -8,36 +8,38 @@ using System.Threading.Tasks;
 
 namespace Plaid.Contracts
 {
+    [DataContract]
     public class Options
     {
-        [JsonProperty("webhook")]
+        [DataMember(Name = "webhook")]
         public string Webhook { get; set; }
         
-        [JsonProperty("pending")]
+        [DataMember(Name = "pending")]
         public bool Pending { get; set; }
         
-        [JsonProperty("login_only")]
+        [DataMember(Name = "login_only")]
         public bool LoginOnly { get; set; }
 
-        [JsonProperty("list")]
+        [DataMember(Name = "list")]
         public bool List { get; set; }
 
-        [JsonProperty("start_date")]
+        [DataMember(Name = "start_date")]
         public string StartDate { get; set; }
 
-        [JsonProperty("end_date")]
+        [DataMember(Name = "end_date")]
         public string EndDate { get; set; }
 
-        [JsonProperty("send_method")]
+        [DataMember(Name = "send_method")]
         public SendMethod SendMethod { get; set; }
     }
 
+    [DataContract]
     public class SendMethod
     {
-        [JsonProperty("type")]
+        [DataMember(Name = "type")]
         public string Type { get; set; }
 
-        [JsonProperty("mask")]
+        [DataMember(Name = "mask")]
         public string Mask { get; set; }
     }
 }
