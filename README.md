@@ -14,30 +14,31 @@ _Public Client_
 
 _User Client_
 ```csharp
-  var userClient = new PlaidUserClient("test_id", "test_secret", PlaidClient.EnvironmentDevelopment);
-  
-  var response = await userClient.AddUser("connect", "chase",
-    new Credentials { Username = "plaid_test", Password = "plaid_good" }, null);
-
-  switch (response.StatusCode)
+  var client = new PlaidUserClient("test_id", "test_secret", PlaidClient.EnvironmentDevelopment);
+  var product = "connect";
+            
+  try
   {
-      case HttpStatusCode.OK:
-          var userData = response.Data;
-
-          // Account list -> userData.Accounts
-          // Transactions -> userData.Transactions
-          // User info    -> userData.Info
-
-          break;
-      case HttpStatusCode.Created:
-
-          // Multi-factor authentication
-          // Details about response in response.Mfa
-
-          response = await userClient.StepUser("connect", response.Data.AccessToken, new[] { "tomato" }, null);
-          break;
-      default:
-          // inspect response.Error for details and messages
-          break;
+      var response = await client.AddUser(product, "td", new Credentials { Username = "plaid_test", Password = "plaid_good" }, null);
+      
+      // if response contains multi factor authentication, details will be wrapped in "Mfa" property
+      if (response.Mfa != null)
+          await client.StepUser(product, response.Mfa.AccessToken, new[] {"tomato"}, null);
+      else
+          // response.Accounts      -> Account information
+          // response.Transactions  -> Transactions
+          // response.Info          -> User information from this institution
+  }
+  catch (PlaidException e)
+  {
+      // Use this exception to capture Plaid API errors as specified in https://plaid.com/docs/#response-codes
+      // Error details wrapped in e.Error
+      // 
+      // if using WCF, you can easily use WebFaultException to handle the error
+      // throw new WebFaultException<Error>(e.Error, e.Error.StatusCode);
+  }
+  catch (Exception e)
+  {
+      // Something else happened here
   }
 ```
