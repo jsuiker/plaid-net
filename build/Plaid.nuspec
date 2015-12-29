@@ -18,12 +18,12 @@
 	<tags>plaid</tags>
   </metadata>
   <files>
-    <file src="..\Plaid\bin\Release\Plaid.dll" target="lib\net452" />
-    <file src="..\Plaid\bin\Release\Plaid.XML" target="lib\net452" />
-	<file src="..\Plaid.UAP\bin\Release\Plaid.dll" target="lib\netcore50" />
-    <file src="..\Plaid.UAP\bin\Release\Plaid.XML" target="lib\netcore50" />
-	<file src="..\Plaid.PCL\bin\Release\Plaid.dll" target="lib\portable-net45+win+wpa81" />
-    <file src="..\Plaid.PCL\bin\Release\Plaid.XML" target="lib\portable-net45+win+wpa81" />
+    <file src="..\src\Plaid\Plaid\bin\Release\Plaid.dll" target="lib\net452" />
+    <file src="..\src\Plaid\Plaid\bin\Release\Plaid.XML" target="lib\net452" />
+	<file src="..\src\Plaid\Plaid.UAP\bin\Release\Plaid.dll" target="lib\netcore50" />
+    <file src="..\src\Plaid\Plaid.UAP\bin\Release\Plaid.XML" target="lib\netcore50" />
+	<file src="..\src\Plaid\Plaid.PCL\bin\Release\Plaid.dll" target="lib\portable-net45+win+wpa81" />
+    <file src="..\src\Plaid\Plaid.PCL\bin\Release\Plaid.XML" target="lib\portable-net45+win+wpa81" />
   </files>
 
 </package>
