@@ -51,7 +51,7 @@ namespace Plaid
         /// <typeparam name="T"></typeparam>
         /// <param name="response">The response.</param>
         /// <returns></returns>
-        protected static async Task<T> Parse<T>(HttpResponseMessage response)
+        protected virtual async Task<T> Parse<T>(HttpResponseMessage response)
         {
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<T>(await response.Content.ReadAsStringAsync());

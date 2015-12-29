@@ -65,9 +65,6 @@ namespace Plaid
 
             var response = await HttpClient.SendAsync(AuthenticatedRequest("POST", product, body));
 
-            if (response.StatusCode == HttpStatusCode.Created)
-                return await ParseMfa(response);
-
             return await Parse<User>(response);
         }
 
@@ -145,6 +142,12 @@ namespace Plaid
             return await Parse<User>(response);
         }
 
+        /// <summary>
+        /// Deletes a user from the specified product.
+        /// </summary>
+        /// <param name="product">The product.</param>
+        /// <param name="accessToken">The access token.</param>
+        /// <returns></returns>
         public async Task DeleteUser(string product, string accessToken)
         {
             dynamic body = new ExpandoObject();
@@ -202,10 +205,11 @@ namespace Plaid
 
             var response = await HttpClient.SendAsync(AuthenticatedRequest("POST", "exchange_token", body));
 
-            return await Parse<string>(response);
+            return await base.Parse<string>((HttpResponseMessage)response);
         }
 
         #region Private
+
         private HttpRequestMessage AuthenticatedRequest(string method, string path, dynamic body)
         {
             body.client_id = _clientId;
@@ -227,15 +231,20 @@ namespace Plaid
         /// <typeparam name="T"></typeparam>
         /// <param name="response">The response.</param>
         /// <returns></returns>
-        protected static async Task<User> ParseMfa(HttpResponseMessage response)
+        private new async Task<T> Parse<T>(HttpResponseMessage response)
+            where T : User, new()
         {
-            var resp = new User();
+            if (response.StatusCode != HttpStatusCode.Created)
+                return await base.Parse<T>(response);
 
             var settings = new JsonSerializerSettings();
             settings.Converters.Add(new MfaJsonConverter());
 
-            resp.Mfa = JsonConvert.DeserializeObject<Mfa>(await response.Content.ReadAsStringAsync(), settings);
-            
+            var resp = new T
+            {
+                Mfa = JsonConvert.DeserializeObject<Mfa>(await response.Content.ReadAsStringAsync(), settings)
+            };
+
             return resp;
         }
 
