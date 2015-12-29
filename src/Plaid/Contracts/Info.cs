@@ -10,16 +10,40 @@ namespace Plaid.Contracts
     [DataContract]
     public class Info
     {
-        [DataMember(Name = "names")]
+        /// <summary>
+        /// Gets or sets the user names.
+        /// </summary>
+        /// <value>
+        /// The names.
+        /// </value>
+        [DataMember(Name = "names", EmitDefaultValue = false)]
         public string[] Names { get; set; }
 
-        [DataMember(Name = "emails")]
+        /// <summary>
+        /// Gets or sets the user emails.
+        /// </summary>
+        /// <value>
+        /// The emails.
+        /// </value>
+        [DataMember(Name = "emails", EmitDefaultValue = false)]
         public Email[] Emails { get; set; }
 
-        [DataMember(Name = "phone_numbers")]
+        /// <summary>
+        /// Gets or sets the user phones.
+        /// </summary>
+        /// <value>
+        /// The phones.
+        /// </value>
+        [DataMember(Name = "phone_numbers", EmitDefaultValue = false)]
         public Phone[] Phones { get; set; }
 
-        [DataMember(Name = "addresses")]
+        /// <summary>
+        /// Gets or sets the user addresses.
+        /// </summary>
+        /// <value>
+        /// The addresses.
+        /// </value>
+        [DataMember(Name = "addresses", EmitDefaultValue = false)]
         public Address[] Addresses { get; set; }
     }
 }

@@ -2,6 +2,9 @@
 
 namespace Plaid.Contracts
 {
+    /// <summary>
+    /// Represents the account metadata
+    /// </summary>
     [DataContract]
     public class AccountMetadata
     {

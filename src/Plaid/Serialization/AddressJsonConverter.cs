@@ -33,7 +33,7 @@ namespace Plaid.Serialization
             result.Primary = jToken["primary"]?.Value<bool>();
             result.Type = jToken["type"]?.Value<string>();
 
-            result.Data = jToken["data"] == null ? jToken.ToObject<AddressEntry>() : jToken["data"].ToObject<AddressEntry>();
+            result.Data = jToken["data"] == null ? jToken.ToObject<AddressItem>() : jToken["data"].ToObject<AddressItem>();
 
             return result;
         }

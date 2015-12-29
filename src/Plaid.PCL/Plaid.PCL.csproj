@@ -78,8 +78,8 @@
     <Compile Include="..\Plaid\Contracts\Transaction.cs">
       <Link>Contracts\Transaction.cs</Link>
     </Compile>
-    <Compile Include="..\Plaid\Contracts\UserData.cs">
-      <Link>Contracts\UserData.cs</Link>
+    <Compile Include="..\Plaid\Contracts\User.cs">
+      <Link>Contracts\User.cs</Link>
     </Compile>
     <Compile Include="..\Plaid\Exceptions\PlaidException.cs">
       <Link>Exceptions\PlaidException.cs</Link>

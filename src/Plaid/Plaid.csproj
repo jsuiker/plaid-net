@@ -59,7 +59,7 @@
     <Compile Include="Contracts\Institution.cs" />
     <Compile Include="Contracts\Mfa.cs" />
     <Compile Include="Contracts\Transaction.cs" />
-    <Compile Include="Contracts\UserData.cs" />
+    <Compile Include="Contracts\User.cs" />
     <Compile Include="Contracts\Options.cs" />
     <Compile Include="Contracts\MfaItem.cs" />
     <Compile Include="IPlaidUserClient.cs" />
