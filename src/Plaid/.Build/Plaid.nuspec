@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Plaid</id>
-    <version>1.0.2.0</version>
+    <version>1.0.4.0</version>
     <title>Plaid</title>
     <authors>Tomislav Markovski</authors>
     <owners>Tomislav Markovski</owners>
@@ -10,10 +10,10 @@
     <projectUrl>https://github.com/tmarkovski/plaid-net</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.NET bindings for the Plaid API (https://plaid.com/docs/)</description>
-    <releaseNotes>Added documentation and new target assemblies for 'dnxcore50'</releaseNotes>
+    <releaseNotes>Simplifed responses, added exception in responses. Added serialization in contracts.</releaseNotes>
     <copyright>Copyright 2015</copyright>  
 	<dependencies>
-	  <dependency id="Newtonsoft.Json" version="7.0.1" />
+	  <dependency id="Newtonsoft.Json" version="8.0.1" />
     </dependencies>
 	<tags>plaid</tags>
   </metadata>
