@@ -4,6 +4,7 @@ using Plaid.Serialization;
 
 namespace Plaid.Contracts
 {
+    [DataContract]
     public class Contact<T>
     {
         [DataMember(Name = "primary", EmitDefaultValue = false)]
@@ -16,13 +17,13 @@ namespace Plaid.Contracts
         public T Data { get; set; }
     }
 
+    [DataContract]
     public class Phone : Contact<string> { }
 
+    [DataContract]
     public class Email : Contact<string> { }
 
+    [DataContract]
     [JsonConverter(typeof(AddressJsonConverter))]
-    public class Address : Contact<AddressEntry>
-    {
-        
-    }
+    public class Address : Contact<AddressEntry> { }
 }

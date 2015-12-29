@@ -20,7 +20,7 @@ namespace Plaid.Contracts
         /// <value>
         /// The username.
         /// </value>
-        [JsonProperty("username"), DataMember(Name = "username")]
+        [DataMember(Name = "username")]
         public string Username { get; set; }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Plaid.Contracts
         /// <value>
         /// The password.
         /// </value>
-        [JsonProperty("password"), DataMember(Name = "password")]
+        [DataMember(Name = "password")]
         public string Password { get; set; }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Plaid.Contracts
         /// <value>
         /// The pin.
         /// </value>
-        [JsonProperty("pin", DefaultValueHandling = DefaultValueHandling.Ignore), DataMember(Name = "pin")]
+        [DataMember(Name = "pin", EmitDefaultValue = false)]
         public string Pin { get; set; }
     }
 }

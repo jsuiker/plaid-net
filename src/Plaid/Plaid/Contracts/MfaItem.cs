@@ -7,6 +7,7 @@ namespace Plaid.Contracts
     /// <summary>
     /// Represens a choice in MFA response. Choice can be a question or device list item.
     /// </summary>
+    [DataContract]
     public class MfaItem
     {
         /// <summary>
