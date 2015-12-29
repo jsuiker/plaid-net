@@ -58,8 +58,8 @@
 
 :end
 
-MSBuild ../src/Plaid/Plaid/Plaid.csproj /property:Configuration=Release
-MSBuild ../src/Plaid/Plaid.UAP/Plaid.UAP.csproj /property:Configuration=Release
-MSBuild ../src/Plaid/Plaid.PCL/Plaid.PCL.csproj /property:Configuration=Release
+MSBuild ../src/Plaid/Plaid.csproj /property:Configuration=Release
+MSBuild ../src/Plaid.UAP/Plaid.UAP.csproj /property:Configuration=Release
+MSBuild ../src/Plaid.PCL/Plaid.PCL.csproj /property:Configuration=Release
 
 nuget pack Plaid.nuspec
