@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{3EFBF198-3DC1-4604-B189-0CF44AF35ADD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Plaid</RootNamespace>
+    <AssemblyName>Plaid</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\Plaid\Contracts\Account.cs">
+      <Link>Contracts\Account.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Contracts\AccountMetadata.cs">
+      <Link>Contracts\AccountMetadata.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Contracts\Address.cs">
+      <Link>Contracts\Address.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Contracts\Balance.cs">
+      <Link>Contracts\Balance.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Contracts\Category.cs">
+      <Link>Contracts\Category.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Contracts\Contact.cs">
+      <Link>Contracts\Contact.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Contracts\Credentials.cs">
+      <Link>Contracts\Credentials.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Contracts\Error.cs">
+      <Link>Contracts\Error.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Contracts\Info.cs">
+      <Link>Contracts\Info.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Contracts\Institution.cs">
+      <Link>Contracts\Institution.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Contracts\Mfa.cs">
+      <Link>Contracts\Mfa.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Contracts\MfaItem.cs">
+      <Link>Contracts\MfaItem.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Contracts\Options.cs">
+      <Link>Contracts\Options.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Contracts\Transaction.cs">
+      <Link>Contracts\Transaction.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Contracts\UserData.cs">
+      <Link>Contracts\UserData.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Exceptions\PlaidException.cs">
+      <Link>Exceptions\PlaidException.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\IPlaidPublicClient.cs">
+      <Link>IPlaidPublicClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\IPlaidUserClient.cs">
+      <Link>IPlaidUserClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\PlaidClient.cs">
+      <Link>PlaidClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\PlaidPublicClient.cs">
+      <Link>PlaidPublicClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\PlaidUserClient.cs">
+      <Link>PlaidUserClient.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Serialization\AddressJsonConverter.cs">
+      <Link>Serialization\AddressJsonConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\Plaid\Serialization\MfaJsonConverter.cs">
+      <Link>Serialization\MfaJsonConverter.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.1\lib\portable-net40+sl5+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
