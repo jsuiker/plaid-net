@@ -12,14 +12,23 @@ using Plaid.Exceptions;
 
 namespace Plaid
 {
+    /// <summary>
+    /// Represents a base plaid client
+    /// </summary>
     [SuppressMessage("ReSharper", "VirtualMemberCallInContructor")]
     public abstract class PlaidClient
     {
+        /// <summary>
+        /// The development environment (tartan)
+        /// </summary>
         public static readonly string EnvironmentDevelopment = "https://tartan.plaid.com";
+        /// <summary>
+        /// The production environment
+        /// </summary>
         public static readonly string EnvironmentProduction = "https://api.plaid.com";
 
-        protected readonly string Environment;
-        protected readonly HttpClient HttpClient;
+        internal readonly string Environment;
+        internal readonly HttpClient HttpClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlaidClient"/> class.

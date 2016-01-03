@@ -9,6 +9,9 @@ using Plaid.Contracts;
 
 namespace Plaid
 {
+    /// <summary>
+    /// Represent a Plaid client for the public endpoints
+    /// </summary>
     public class PlaidPublicClient : PlaidClient, IPlaidPublicClient
     {
         /// <summary>
