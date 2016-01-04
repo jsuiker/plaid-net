@@ -19,9 +19,11 @@ _User Client_
             
   try
   {
-      var response = await client.AddUser(product, "td", new Credentials { Username = "plaid_test", Password = "plaid_good" }, null);
+      var response = await client.AddUser(product, "td", 
+        new Credentials { Username = "plaid_test", Password = "plaid_good" }, null);
       
-      // if response contains multi factor authentication, details will be wrapped in "Mfa" property
+      // if response contains multi factor authentication, details will 
+      // be wrapped in "Mfa" property
       if (response.Mfa != null)
           await client.StepUser(product, response.Mfa.AccessToken, new[] {"tomato"}, null);
       else
@@ -31,7 +33,8 @@ _User Client_
   }
   catch (PlaidException e)
   {
-      // Use this exception to capture Plaid API errors as specified in https://plaid.com/docs/#response-codes
+      // Use this exception to capture Plaid API errors 
+      // as specified in https://plaid.com/docs/#response-codes
       // Error details wrapped in e.Error
       // 
       // if using WCF, you can easily use WebFaultException to handle the error
