@@ -1,9 +1,14 @@
 version: 1.0.{build}
-os: Visual Studio 2015
+branches:
+  only:
+  - master
+os: Windows Server 2012 R2
 configuration: Release
 platform: Any CPU
+clone_depth: 1
 before_build:
 - cmd: nuget restore src\Plaid.sln
 build:
-  verbosity: detailed
+  project: src/Plaid.sln
+  verbosity: minimal
 deploy: off
