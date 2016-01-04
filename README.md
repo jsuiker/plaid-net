@@ -1,4 +1,5 @@
-# Plaid
+# Plaid [![Build status](https://ci.appveyor.com/api/projects/status/as0caj6uoqjsjl2p?svg=true)](https://ci.appveyor.com/project/TomislavMarkovski/plaid-net)
+
 ###### .NET bindings for the Plaid API
 
 This library provides convenient access to the [Plaid restful services](https://plaid.com/docs/). It's also available as [NuGet package](https://www.nuget.org/packages/Plaid/) for .NET, Universal Windows Platform, Portable Class Library (Xamarin). Please [drop me a note](https://github.com/tmarkovski/plaid-net/issues) if you need specific target frameworks.
