@@ -4,11 +4,11 @@
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Plaid-net : .NET bindings for the Plaid API">
+    <meta name="description" content="plaid-net : .NET bindings for the Plaid API">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>Plaid-net</title>
+    <title>plaid-net</title>
   </head>
 
   <body>
@@ -18,7 +18,7 @@
         <header class="inner">
           <a id="forkme_banner" href="https://github.com/tmarkovski/plaid-net">View on GitHub</a>
 
-          <h1 id="project_title">Plaid-net</h1>
+          <h1 id="project_title">plaid-net</h1>
           <h2 id="project_tagline">.NET bindings for the Plaid API</h2>
 
             <section id="downloads">
@@ -55,9 +55,11 @@
 
   <span class="pl-k">try</span>
   {
-      <span class="pl-k">var</span> response = <span class="pl-k">await</span> client.AddUser(product, <span class="pl-s"><span class="pl-pds">"</span>td<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> Credentials { Username = <span class="pl-s"><span class="pl-pds">"</span>plaid_test<span class="pl-pds">"</span></span>, Password = <span class="pl-s"><span class="pl-pds">"</span>plaid_good<span class="pl-pds">"</span></span> }, <span class="pl-c1">null</span>);
+      <span class="pl-k">var</span> response = <span class="pl-k">await</span> client.AddUser(product, <span class="pl-s"><span class="pl-pds">"</span>td<span class="pl-pds">"</span></span>, 
+        <span class="pl-k">new</span> Credentials { Username = <span class="pl-s"><span class="pl-pds">"</span>plaid_test<span class="pl-pds">"</span></span>, Password = <span class="pl-s"><span class="pl-pds">"</span>plaid_good<span class="pl-pds">"</span></span> }, <span class="pl-c1">null</span>);
 
-      <span class="pl-c">// if response contains multi factor authentication, details will be wrapped in "Mfa" property</span>
+      <span class="pl-c">// if response contains multi factor authentication, details will </span>
+      <span class="pl-c">// be wrapped in "Mfa" property</span>
       <span class="pl-k">if</span> (response.Mfa != <span class="pl-c1">null</span>)
           <span class="pl-k">await</span> client.StepUser(product, response.Mfa.AccessToken, <span class="pl-k">new</span>[] {<span class="pl-s"><span class="pl-pds">"</span>tomato<span class="pl-pds">"</span></span>}, <span class="pl-c1">null</span>);
       <span class="pl-k">else</span>
@@ -67,7 +69,8 @@
   }
   <span class="pl-k">catch</span> (PlaidException e)
   {
-      <span class="pl-c">// Use this exception to capture Plaid API errors as specified in https://plaid.com/docs/#response-codes</span>
+      <span class="pl-c">// Use this exception to capture Plaid API errors </span>
+      <span class="pl-c">// as specified in https://plaid.com/docs/#response-codes</span>
       <span class="pl-c">// Error details wrapped in e.Error</span>
       <span class="pl-c">// </span>
       <span class="pl-c">// if using WCF, you can easily use WebFaultException to handle the error</span>
@@ -83,7 +86,7 @@
     <!-- FOOTER  -->
     <div id="footer_wrap" class="outer">
       <footer class="inner">
-        <p class="copyright">Plaid-net maintained by <a href="https://github.com/tmarkovski">tmarkovski</a></p>
+        <p class="copyright">plaid-net maintained by <a href="https://github.com/tmarkovski">tmarkovski</a></p>
         <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
