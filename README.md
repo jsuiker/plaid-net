@@ -1,6 +1,5 @@
 # Plaid
 [![Build status](https://ci.appveyor.com/api/projects/status/as0caj6uoqjsjl2p?svg=true)](https://ci.appveyor.com/project/TomislavMarkovski/plaid-net)
-[![Build status](https://travis-ci.org/tmarkovski/plaid-net.svg)](https://travis-ci.org/tmarkovski/plaid-net)
 ###### .NET bindings for the Plaid API
 
 
