@@ -158,7 +158,7 @@ namespace Plaid.Tests
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Mfa);
             Assert.IsTrue(result.Mfa.Type == "device");
-
+            Assert.IsTrue(result.Mfa.AccessToken != null);
         }
 
         [TestMethod]
