@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Plaid</id>
-    <version>1.0.5.0</version>
+    <version>1.0.6.0</version>
     <title>Plaid</title>
     <authors>Tomislav Markovski</authors>
     <owners>Tomislav Markovski</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/tmarkovski/plaid-net</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>.NET bindings for the Plaid API (https://plaid.com/docs/)</description>
-    <releaseNotes>Added support for .NET 4.5</releaseNotes>
+    <releaseNotes>Added missing transaction metadata model</releaseNotes>
     <copyright>Copyright 2015</copyright>  
 	<dependencies>
 	  <dependency id="Newtonsoft.Json" version="8.0.1" />
